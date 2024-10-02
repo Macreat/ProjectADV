@@ -21,6 +21,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdio.h>
+#include <string.h>
 
 /* USER CODE END Includes */
 
@@ -45,6 +47,9 @@ ADC_HandleTypeDef hadc1;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
+
+uint16_t lux = 0;
+char msg[20];
 
 /* USER CODE END PV */
 
@@ -101,6 +106,26 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
+
+	   HAL_ADC_Start(&hadc1);
+	   HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+	   lux  = HAL_ADC_GetValue(&hadc1);
+	   sprintf (msg, "Light : %hu \r \n", lux);
+	   HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+
+	   HAL_Delay(1000);  // Esperar un segundo antes de la siguiente lectura
+
+
+
+	   if (lux < 2000){
+		   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin , 1 );
+
+	   }else{
+		   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin , 1 );
+
+	   }
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
