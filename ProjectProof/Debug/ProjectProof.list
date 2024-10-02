@@ -502,8 +502,8 @@ int main(void)
  80005e8:	e7ce      	b.n	8000588 <main+0x18>
 
 	   }else{
-		   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin , 1 );
- 80005ea:	2201      	movs	r2, #1
+		   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin , 0 );
+ 80005ea:	2200      	movs	r2, #0
  80005ec:	2120      	movs	r1, #32
  80005ee:	f04f 4090 	mov.w	r0, #1207959552	@ 0x48000000
  80005f2:	f002 fba7 	bl	8002d44 <HAL_GPIO_WritePin>

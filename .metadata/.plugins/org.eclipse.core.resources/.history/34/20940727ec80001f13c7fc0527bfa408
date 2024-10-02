@@ -107,7 +107,7 @@ int main(void)
   while (1)
   {
 
-// ...
+
 	   HAL_ADC_Start(&hadc1);
 	   HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
 	   lux  = HAL_ADC_GetValue(&hadc1);
@@ -122,7 +122,7 @@ int main(void)
 		   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin , 1 );
 
 	   }else{
-		   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin , 0 );
+		   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin , 1 );
 
 	   }
 
