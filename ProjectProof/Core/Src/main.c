@@ -23,6 +23,8 @@
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
+#include <LM35.h>
 
 /* USER CODE END Includes */
 
@@ -48,8 +50,26 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 
-uint16_t lux = 0;
-char msg[20];
+char uart_buf[50];
+uint16_t raw_value;
+float temperature;
+float B = 3950;  // Constante B del material del NTC
+float R0 = 53000; // Resistencia del NTC a 25 grados Celsius
+float T0 = 298.15; // 25 grados Celsius en Kelvin
+#define V_IN 3.3   // Voltaje de referencia del sistema (3.3V)
+
+
+
+float RNTC; // Resistencia calculada del NTC
+float T_kelvin; // Temperatura en Kelvin
+float R_div = 2000; // 2kΩ
+
+
+float T_low = 25;      // Temperatura baja en grados Celsius
+float T_high = 100;    // Temperatura alta en grados Celsius
+float R_low = 45000;   // Resistencia a 25 grados Celsius (53kΩ)
+float R_high = 2500;   // Resistencia a 100 grados Celsius (2.5kΩ)
+
 
 /* USER CODE END PV */
 
@@ -100,6 +120,8 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
+  LM35_Init(0);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -108,23 +130,27 @@ int main(void)
   {
 
 // ...
-	   HAL_ADC_Start(&hadc1);
-	   HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
-	   lux  = HAL_ADC_GetValue(&hadc1);
-	   sprintf (msg, "Light : %hu \r \n", lux);
-	   HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+	  float Temp1 = 0, temp2 = 0;
+	  uint8_t MSG[40] = {0};
+	  Temp1 = LM35_Read(0);
+	  sprintf(MSG, "Temp = %.3f , %.3f\r\n", Temp1, temp2);
+	  HAL_UART_Transmit(&huart2, MSG, sizeof(MSG), 100);
+	  HAL_Delay(10);
 
-	   HAL_Delay(1000);  // Esperar un segundo antes de la siguiente lectura
-
-
-
-	   if (lux < 2000){
+	   // conditional cycle
+	   /*
+	    *
+	    *	   if (lux < 2000){
 		   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin , 1 );
 
 	   }else{
 		   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin , 0 );
 
-	   }
+	   } 0
+	    *
+	    *
+	    */
+
 
     /* USER CODE END WHILE */
 
@@ -158,7 +184,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
   RCC_OscInitStruct.PLL.PLLM = 1;
-  RCC_OscInitStruct.PLL.PLLN = 10;
+  RCC_OscInitStruct.PLL.PLLN = 9;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV7;
   RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
   RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
@@ -235,7 +261,7 @@ static void MX_ADC1_Init(void)
   */
   sConfig.Channel = ADC_CHANNEL_5;
   sConfig.Rank = ADC_REGULAR_RANK_1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_12CYCLES_5;
+  sConfig.SamplingTime = ADC_SAMPLETIME_24CYCLES_5;
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
   sConfig.OffsetNumber = ADC_OFFSET_NONE;
   sConfig.Offset = 0;
