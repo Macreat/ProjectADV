@@ -557,3 +557,173 @@ Finished building: default.size.stdout
  
 Finished building: ProjectProof.list
  
+10:06:34 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:132:44: error: 'V_IN' undeclared (first use in this function)
+  132 |             float RNTC = (R_div * Vout) / (V_IN - Vout);  // Calcular la resistencia del NTC
+      |                                            ^~~~
+../Core/Src/main.c:132:44: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/main.c:142:66: warning: implicit declaration of function 'log' [-Wimplicit-function-declaration]
+  142 |                       float T_kelvin = 1 / ((1 / T0) + (1 / B) * log(RNTC / R0));
+      |                                                                  ^~~
+../Core/Src/main.c:26:1: note: include '<math.h>' or provide a declaration of 'log'
+   25 | #include <string.h>
+  +++ |+#include <math.h>
+   26 | 
+../Core/Src/main.c:142:66: warning: incompatible implicit declaration of built-in function 'log' [-Wbuiltin-declaration-mismatch]
+  142 |                       float T_kelvin = 1 / ((1 / T0) + (1 / B) * log(RNTC / R0));
+      |                                                                  ^~~
+../Core/Src/main.c:142:66: note: include '<math.h>' or provide a declaration of 'log'
+../Core/Src/main.c:143:31: warning: unused variable 'temperature' [-Wunused-variable]
+  143 |                         float temperature = T_kelvin - 273.15;  // Convertir de Kelvin a Celsius
+      |                               ^~~~~~~~~~~
+../Core/Src/main.c:153:41: warning: format '%hu' expects argument of type 'int', but argument 3 has type 'double' [-Wformat=]
+  153 |            sprintf (uart_buf, "temp : %hu \r\n", temperature);
+      |                                       ~~^        ~~~~~~~~~~~
+      |                                         |        |
+      |                                         int      double
+      |                                       %f
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+10:07:37 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:145:66: warning: implicit declaration of function 'log' [-Wimplicit-function-declaration]
+  145 |                       float T_kelvin = 1 / ((1 / T0) + (1 / B) * log(RNTC / R0));
+      |                                                                  ^~~
+../Core/Src/main.c:26:1: note: include '<math.h>' or provide a declaration of 'log'
+   25 | #include <string.h>
+  +++ |+#include <math.h>
+   26 | 
+../Core/Src/main.c:145:66: warning: incompatible implicit declaration of built-in function 'log' [-Wbuiltin-declaration-mismatch]
+  145 |                       float T_kelvin = 1 / ((1 / T0) + (1 / B) * log(RNTC / R0));
+      |                                                                  ^~~
+../Core/Src/main.c:145:66: note: include '<math.h>' or provide a declaration of 'log'
+../Core/Src/main.c:146:31: warning: unused variable 'temperature' [-Wunused-variable]
+  146 |                         float temperature = T_kelvin - 273.15;  // Convertir de Kelvin a Celsius
+      |                               ^~~~~~~~~~~
+../Core/Src/main.c:156:41: warning: format '%hu' expects argument of type 'int', but argument 3 has type 'double' [-Wformat=]
+  156 |            sprintf (uart_buf, "temp : %hu \r\n", temperature);
+      |                                       ~~^        ~~~~~~~~~~~
+      |                                         |        |
+      |                                         int      double
+      |                                       %f
+arm-none-eabi-gcc -o "ProjectProof.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectProof\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectProof.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectProof.elf
+ 
+arm-none-eabi-size  ProjectProof.elf 
+arm-none-eabi-objdump -h -S ProjectProof.elf  > "ProjectProof.list"
+   text	   data	    bss	    dec	    hex	filename
+  28544	    108	   2196	  30848	   7880	ProjectProof.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectProof.list
+ 
+12:21:08 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:147:66: warning: implicit declaration of function 'log' [-Wimplicit-function-declaration]
+  147 |                       float T_kelvin = 1 / ((1 / T0) + (1 / B) * log(RNTC / R0));
+      |                                                                  ^~~
+../Core/Src/main.c:26:1: note: include '<math.h>' or provide a declaration of 'log'
+   25 | #include <string.h>
+  +++ |+#include <math.h>
+   26 | 
+../Core/Src/main.c:147:66: warning: incompatible implicit declaration of built-in function 'log' [-Wbuiltin-declaration-mismatch]
+  147 |                       float T_kelvin = 1 / ((1 / T0) + (1 / B) * log(RNTC / R0));
+      |                                                                  ^~~
+../Core/Src/main.c:147:66: note: include '<math.h>' or provide a declaration of 'log'
+../Core/Src/main.c:148:31: warning: unused variable 'temperature' [-Wunused-variable]
+  148 |                         float temperature = T_kelvin - 273.15;  // Convertir de Kelvin a Celsius
+      |                               ^~~~~~~~~~~
+../Core/Src/main.c:158:41: warning: format '%hu' expects argument of type 'int', but argument 3 has type 'double' [-Wformat=]
+  158 |            sprintf (uart_buf, "temp : %hu \r\n", temperature);
+      |                                       ~~^        ~~~~~~~~~~~
+      |                                         |        |
+      |                                         int      double
+      |                                       %f
+arm-none-eabi-gcc -o "ProjectProof.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectProof\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectProof.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectProof.elf
+ 
+arm-none-eabi-size  ProjectProof.elf 
+arm-none-eabi-objdump -h -S ProjectProof.elf  > "ProjectProof.list"
+   text	   data	    bss	    dec	    hex	filename
+  28528	    108	   2196	  30832	   7870	ProjectProof.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectProof.list
+ 
+12:24:33 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:147:66: warning: implicit declaration of function 'log' [-Wimplicit-function-declaration]
+  147 |                       float T_kelvin = 1 / ((1 / T0) + (1 / B) * log(RNTC / R0));
+      |                                                                  ^~~
+../Core/Src/main.c:26:1: note: include '<math.h>' or provide a declaration of 'log'
+   25 | #include <string.h>
+  +++ |+#include <math.h>
+   26 | 
+../Core/Src/main.c:147:66: warning: incompatible implicit declaration of built-in function 'log' [-Wbuiltin-declaration-mismatch]
+  147 |                       float T_kelvin = 1 / ((1 / T0) + (1 / B) * log(RNTC / R0));
+      |                                                                  ^~~
+../Core/Src/main.c:147:66: note: include '<math.h>' or provide a declaration of 'log'
+../Core/Src/main.c:148:31: warning: variable 'temperature' set but not used [-Wunused-but-set-variable]
+  148 |                         float temperature = T_kelvin - 273.15;  // Convertir de Kelvin a Celsius
+      |                               ^~~~~~~~~~~
+../Core/Src/main.c:159:41: warning: format '%hu' expects argument of type 'int', but argument 3 has type 'double' [-Wformat=]
+  159 |            sprintf (uart_buf, "temp : %hu \r\n", temperature);
+      |                                       ~~^        ~~~~~~~~~~~
+      |                                         |        |
+      |                                         int      double
+      |                                       %f
+arm-none-eabi-gcc -o "ProjectProof.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectProof\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectProof.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectProof.elf
+ 
+arm-none-eabi-size  ProjectProof.elf 
+arm-none-eabi-objdump -h -S ProjectProof.elf  > "ProjectProof.list"
+   text	   data	    bss	    dec	    hex	filename
+  28544	    108	   2196	  30848	   7880	ProjectProof.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectProof.list
+ 
+12:25:25 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:147:66: warning: implicit declaration of function 'log' [-Wimplicit-function-declaration]
+  147 |                       float T_kelvin = 1 / ((1 / T0) + (1 / B) * log(RNTC / R0));
+      |                                                                  ^~~
+../Core/Src/main.c:26:1: note: include '<math.h>' or provide a declaration of 'log'
+   25 | #include <string.h>
+  +++ |+#include <math.h>
+   26 | 
+../Core/Src/main.c:147:66: warning: incompatible implicit declaration of built-in function 'log' [-Wbuiltin-declaration-mismatch]
+  147 |                       float T_kelvin = 1 / ((1 / T0) + (1 / B) * log(RNTC / R0));
+      |                                                                  ^~~
+../Core/Src/main.c:147:66: note: include '<math.h>' or provide a declaration of 'log'
+../Core/Src/main.c:148:31: warning: variable 'temperature' set but not used [-Wunused-but-set-variable]
+  148 |                         float temperature = T_kelvin - 273.15;  // Convertir de Kelvin a Celsius
+      |                               ^~~~~~~~~~~
+../Core/Src/main.c:159:41: warning: unknown conversion type character ' ' in format [-Wformat=]
+  159 |            sprintf (uart_buf, "temp : %h \r\n", temperature);
+      |                                         ^
+../Core/Src/main.c:159:31: warning: too many arguments for format [-Wformat-extra-args]
+  159 |            sprintf (uart_buf, "temp : %h \r\n", temperature);
+      |                               ^~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "ProjectProof.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectProof\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectProof.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectProof.elf
+ 
+arm-none-eabi-size  ProjectProof.elf 
+arm-none-eabi-objdump -h -S ProjectProof.elf  > "ProjectProof.list"
+   text	   data	    bss	    dec	    hex	filename
+  28544	    108	   2196	  30848	   7880	ProjectProof.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectProof.list
+ 

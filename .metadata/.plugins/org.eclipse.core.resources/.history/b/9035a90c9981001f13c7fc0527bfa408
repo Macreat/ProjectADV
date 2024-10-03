@@ -54,9 +54,6 @@ float temperature;
 float B = 3950;  // Constante B del material del NTC
 float R0 = 53000; // Resistencia del NTC a 25 grados Celsius
 float T0 = 298.15; // 25 grados Celsius en Kelvin
-#define V_IN 3.3   // Voltaje de referencia del sistema (3.3V)
-
-
 
 float RNTC; // Resistencia calculada del NTC
 float T_kelvin; // Temperatura en Kelvin
@@ -131,23 +128,16 @@ int main(void)
 	   raw_value  = HAL_ADC_GetValue(&hadc1);
 
 	   //
-	   //float Vout = (raw_value * 3.3) / 4095;
-	   float Vout = ((float)raw_value * 3.3f) / 4095.0f;
-
-	    float RNTC = (R_div * Vout) / (V_IN - Vout);  // Calcular la resistencia del NTC
+	   float Vout = (raw_value * 3.3) / 4095;
+	    float RNTC = (R_FIXED * Vout) / (V_IN - Vout);  // Calcular la resistencia del NTC
 
 
 	   if (Vout > 0) {
 	              RNTC = (R_div * Vout) / (3.3 - Vout);
 
 	            // T_kelvin = 1 / ((1 / T0) + (1 / B) * log(RNTC / R0));
-	            // temperature = ((T_high - T_low) / (R_low - R_high)) * (RNTC - R_high) + T_high; }
-	            // /temperature = T_kelvin - 290;
-
-	              float T_kelvin = 1 / ((1 / T0) + (1 / B) * log(RNTC / R0));
-	                float temperature = T_kelvin - 273.15;  // Convertir de Kelvin a Celsius
-	                temperature = Vout *100 ;
-
+	            temperature = ((T_high - T_low) / (R_low - R_high)) * (RNTC - R_high) + T_high; }
+	             /temperature = T_kelvin - 290;
 	          } else {
 	              temperature = -999;
 	          }

@@ -1,35 +1,38 @@
-19:29:29 **** Incremental Build of configuration Debug for project ProjectProof ****
+12:25:25 **** Incremental Build of configuration Debug for project ProjectProof ****
 make -j8 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:135:59: warning: implicit declaration of function 'log' [-Wimplicit-function-declaration]
-  135 |                      T_kelvin = 1 / ((1 / T0) + (1 / B) * log(RNTC / R0));
-      |                                                           ^~~
+../Core/Src/main.c:147:66: warning: implicit declaration of function 'log' [-Wimplicit-function-declaration]
+  147 |                       float T_kelvin = 1 / ((1 / T0) + (1 / B) * log(RNTC / R0));
+      |                                                                  ^~~
 ../Core/Src/main.c:26:1: note: include '<math.h>' or provide a declaration of 'log'
    25 | #include <string.h>
   +++ |+#include <math.h>
    26 | 
-../Core/Src/main.c:135:59: warning: incompatible implicit declaration of built-in function 'log' [-Wbuiltin-declaration-mismatch]
-  135 |                      T_kelvin = 1 / ((1 / T0) + (1 / B) * log(RNTC / R0));
-      |                                                           ^~~
-../Core/Src/main.c:135:59: note: include '<math.h>' or provide a declaration of 'log'
-../Core/Src/main.c:146:41: warning: format '%hu' expects argument of type 'int', but argument 3 has type 'double' [-Wformat=]
-  146 |            sprintf (uart_buf, "temp : %hu \r\n", temperature);
-      |                                       ~~^        ~~~~~~~~~~~
-      |                                         |        |
-      |                                         int      double
-      |                                       %f
+../Core/Src/main.c:147:66: warning: incompatible implicit declaration of built-in function 'log' [-Wbuiltin-declaration-mismatch]
+  147 |                       float T_kelvin = 1 / ((1 / T0) + (1 / B) * log(RNTC / R0));
+      |                                                                  ^~~
+../Core/Src/main.c:147:66: note: include '<math.h>' or provide a declaration of 'log'
+../Core/Src/main.c:148:31: warning: variable 'temperature' set but not used [-Wunused-but-set-variable]
+  148 |                         float temperature = T_kelvin - 273.15;  // Convertir de Kelvin a Celsius
+      |                               ^~~~~~~~~~~
+../Core/Src/main.c:159:41: warning: unknown conversion type character ' ' in format [-Wformat=]
+  159 |            sprintf (uart_buf, "temp : %h \r\n", temperature);
+      |                                         ^
+../Core/Src/main.c:159:31: warning: too many arguments for format [-Wformat-extra-args]
+  159 |            sprintf (uart_buf, "temp : %h \r\n", temperature);
+      |                               ^~~~~~~~~~~~~~~~
 arm-none-eabi-gcc -o "ProjectProof.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectProof\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectProof.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: ProjectProof.elf
  
 arm-none-eabi-size  ProjectProof.elf 
 arm-none-eabi-objdump -h -S ProjectProof.elf  > "ProjectProof.list"
    text	   data	    bss	    dec	    hex	filename
-  28464	    108	   2204	  30776	   7838	ProjectProof.elf
+  28544	    108	   2196	  30848	   7880	ProjectProof.elf
 Finished building: default.size.stdout
  
 Finished building: ProjectProof.list
  
 
-19:29:37 Build Finished. 0 errors, 3 warnings. (took 8s.720ms)
+12:25:26 Build Finished. 0 errors, 5 warnings. (took 1s.467ms)
 

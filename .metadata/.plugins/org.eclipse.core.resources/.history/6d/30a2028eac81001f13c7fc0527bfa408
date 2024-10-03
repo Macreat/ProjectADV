@@ -156,7 +156,7 @@ int main(void)
 
 	   sprintf (uart_buf, "analog value : %hu \r\n", raw_value);
 	   HAL_UART_Transmit(&huart2, (uint8_t*)uart_buf, strlen(uart_buf), HAL_MAX_DELAY);
-	   sprintf (uart_buf, "temp : %hu \r\n", temperature);
+	   sprintf (uart_buf, "temp : %h \r\n", temperature);
 	   HAL_UART_Transmit(&huart2, (uint8_t*)uart_buf, strlen(uart_buf), HAL_MAX_DELAY);
 	   HAL_Delay(1000);
 

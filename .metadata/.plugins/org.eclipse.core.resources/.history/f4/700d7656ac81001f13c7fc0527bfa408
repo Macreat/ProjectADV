@@ -146,7 +146,6 @@ int main(void)
 
 	              float T_kelvin = 1 / ((1 / T0) + (1 / B) * log(RNTC / R0));
 	                float temperature = T_kelvin - 273.15;  // Convertir de Kelvin a Celsius
-	                temperature = Vout *100 ;
 
 	          } else {
 	              temperature = -999;
