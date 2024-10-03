@@ -23,6 +23,8 @@
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
+#include <LM35.h>
 
 /* USER CODE END Includes */
 
@@ -118,6 +120,8 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
+  LM35_Init(0);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -126,39 +130,12 @@ int main(void)
   {
 
 // ...
-	   HAL_ADC_Start(&hadc1);
-	   HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
-	   raw_value  = HAL_ADC_GetValue(&hadc1);
-
-	   //
-	   //float Vout = (raw_value * 3.3) / 4095;
-	   float Vout = ((float)raw_value * 3.3f) / 4095.0f;
-
-	    float RNTC = (R_div * Vout) / (V_IN - Vout);  // Calcular la resistencia del NTC
-
-
-	   if (Vout > 0) {
-	              RNTC = (R_div * Vout) / (3.3 - Vout);
-
-	            // T_kelvin = 1 / ((1 / T0) + (1 / B) * log(RNTC / R0));
-	            // temperature = ((T_high - T_low) / (R_low - R_high)) * (RNTC - R_high) + T_high; }
-	            // /temperature = T_kelvin - 290;
-
-	              float T_kelvin = 1 / ((1 / T0) + (1 / B) * log(RNTC / R0));
-	                float temperature = T_kelvin - 273.15;  // Convertir de Kelvin a Celsius
-	                temperature = Vout *100 ;
-
-	          } else {
-	              temperature = -999;
-	          }
-
-	   // send DATA via uart
-
-	   sprintf (uart_buf, "analog value : %hu \r\n", raw_value);
-	   HAL_UART_Transmit(&huart2, (uint8_t*)uart_buf, strlen(uart_buf), HAL_MAX_DELAY);
-	   sprintf (uart_buf, "temp : %hu \r\n", temperature);
-	   HAL_UART_Transmit(&huart2, (uint8_t*)uart_buf, strlen(uart_buf), HAL_MAX_DELAY);
-	   HAL_Delay(1000);
+	  float Temp1 = 0, temp2 = 0;
+	  uint8_t MSG[40] = {0};
+	  Temp1 = LM35_Read(0);
+	  sprintf(MSG, "Temp = %.3f , %.3f\r\n", Temp1, temp2);
+	  HAL_UART_Transmit(&huart2, MSG, sizeof(MSG), 100);
+	  HAL_Delay(10);
 
 	   // conditional cycle
 	   /*
@@ -207,7 +184,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
   RCC_OscInitStruct.PLL.PLLM = 1;
-  RCC_OscInitStruct.PLL.PLLN = 10;
+  RCC_OscInitStruct.PLL.PLLN = 9;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV7;
   RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
   RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
@@ -284,7 +261,7 @@ static void MX_ADC1_Init(void)
   */
   sConfig.Channel = ADC_CHANNEL_5;
   sConfig.Rank = ADC_REGULAR_RANK_1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_12CYCLES_5;
+  sConfig.SamplingTime = ADC_SAMPLETIME_24CYCLES_5;
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
   sConfig.OffsetNumber = ADC_OFFSET_NONE;
   sConfig.Offset = 0;
