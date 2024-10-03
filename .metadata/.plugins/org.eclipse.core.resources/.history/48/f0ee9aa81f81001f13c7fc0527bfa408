@@ -54,7 +54,6 @@ float temperature;
 float B = 3950;  // Constante B del material del NTC
 float R0 = 53000; // Resistencia del NTC a 25 grados Celsius
 float T0 = 298.15; // 25 grados Celsius en Kelvin
-
 float RNTC; // Resistencia calculada del NTC
 float T_kelvin; // Temperatura en Kelvin
 float R_div = 2000; // 2kΩ
@@ -133,9 +132,9 @@ int main(void)
 	   if (Vout > 0) {
 	              RNTC = (R_div * Vout) / (3.3 - Vout);
 
-	            // T_kelvin = 1 / ((1 / T0) + (1 / B) * log(RNTC / R0));
-	            temperature = ((T_high - T_low) / (R_low - R_high)) * (RNTC - R_high) + T_high; }
-	             /temperature = T_kelvin - 290;
+	             T_kelvin = 1 / ((1 / T0) + (1 / B) * log(RNTC / R0));
+	              //temperature = ((T_high - T_low) / (R_low - R_high)) * (RNTC - R_high) + T_high; }
+	             temperature = T_kelvin - 290;
 	          } else {
 	              temperature = -999;
 	          }

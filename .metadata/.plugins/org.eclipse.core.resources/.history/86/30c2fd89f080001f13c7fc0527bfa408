@@ -54,17 +54,9 @@ float temperature;
 float B = 3950;  // Constante B del material del NTC
 float R0 = 53000; // Resistencia del NTC a 25 grados Celsius
 float T0 = 298.15; // 25 grados Celsius en Kelvin
-
 float RNTC; // Resistencia calculada del NTC
 float T_kelvin; // Temperatura en Kelvin
 float R_div = 2000; // 2kΩ
-
-
-float T_low = 25;      // Temperatura baja en grados Celsius
-float T_high = 100;    // Temperatura alta en grados Celsius
-float R_low = 45000;   // Resistencia a 25 grados Celsius (53kΩ)
-float R_high = 2500;   // Resistencia a 100 grados Celsius (2.5kΩ)
-
 
 /* USER CODE END PV */
 
@@ -128,25 +120,29 @@ int main(void)
 	   raw_value  = HAL_ADC_GetValue(&hadc1);
 
 	   //
-	   float Vout = (raw_value * 3.3) / 4095;
+	   float Vout = ((float)raw_value) * 3.3 / 4095;  // Convertir el valor ADC a voltaje
 
+	          // Calcular la resistencia del NTC a partir del divisor de tensión
 	   if (Vout > 0) {
+	              // Calcular la resistencia del NTC a partir del divisor de tensión
 	              RNTC = (R_div * Vout) / (3.3 - Vout);
 
-	            // T_kelvin = 1 / ((1 / T0) + (1 / B) * log(RNTC / R0));
-	            temperature = ((T_high - T_low) / (R_low - R_high)) * (RNTC - R_high) + T_high; }
-	             /temperature = T_kelvin - 290;
+	              // Convertir la resistencia del NTC en temperatura usando la ecuación de Steinhart-Hart simplificada
+	              T_kelvin = 1 / ((1 / T0) + (1 / B) * log(RNTC / R0));
+	              temperature = T_kelvin - 273.15;  // Convertir de Kelvin a Celsius
 	          } else {
-	              temperature = -999;
+	              temperature = -999;  // Indicar un error en la medición
 	          }
 
 	   // send DATA via uart
 
-	   sprintf (uart_buf, "analog value : %hu \r\n", raw_value);
+	   sprintf (uart_buf, "Light1 : %hu \r\n", raw_value);
 	   HAL_UART_Transmit(&huart2, (uint8_t*)uart_buf, strlen(uart_buf), HAL_MAX_DELAY);
 	   sprintf (uart_buf, "temp : %hu \r\n", temperature);
 	   HAL_UART_Transmit(&huart2, (uint8_t*)uart_buf, strlen(uart_buf), HAL_MAX_DELAY);
-	   HAL_Delay(1000);
+
+	   HAL_Delay(1000);  // Esperar un segundo antes de la siguiente lectura
+
 
 	   // conditional cycle
 	   /*
@@ -157,7 +153,7 @@ int main(void)
 	   }else{
 		   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin , 0 );
 
-	   } 0
+	   }
 	    *
 	    *
 	    */
