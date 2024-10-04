@@ -45,6 +45,8 @@
 ADC_HandleTypeDef hadc1;
 ADC_HandleTypeDef hadc2;
 
+I2C_HandleTypeDef hi2c1;
+
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
@@ -63,6 +65,7 @@ static void MX_GPIO_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_ADC2_Init(void);
+static void MX_I2C1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -107,6 +110,7 @@ int main(void)
   MX_ADC1_Init();
   MX_USART2_UART_Init();
   MX_ADC2_Init();
+  MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -132,7 +136,7 @@ int main(void)
 	   HAL_Delay(1000);
 
 	   //conditional for LDR incidence
-	   if ( raw_value_LDR > 3000){
+	   if ( raw_value_LDR > 3000  || HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) == GPIO_PIN_RESET){
 	   		   HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin , 1 );
 
 	   	   }else{
@@ -142,24 +146,24 @@ int main(void)
 
 	   // conditional for NTC incidence
 
-	   if (raw_value_NTC <= 1250) {
-	       // Activa el LED1
-	       HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, 1);
-	       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, 0); // Asegura que el LED2 esté apagado
-	       HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, 0); // Asegura que el LED3 esté apagado
-	   }
-	   else if (raw_value_NTC > 1250 && raw_value_NTC <= 2500) {
-	       // Activa el LED2
-	       HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, 1); // Asegura que el LED1 esté apagado
-	       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, 1);
-	       HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, 0); // Asegura que el LED3 esté apagado
-	   }
-	   else if (raw_value_NTC > 2500) {
-	       // Activa el LED3
-	       HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, 1); // Asegura que el LED1 esté apagado
-	       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, 1); // Asegura que el LED2 esté apagado
-	       HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, 1);
-	   }
+		  if (raw_value_NTC <= 800) {
+			  // Activa el LED1
+			  HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET);
+			  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET); // Asegura que el LED2 esté apagado
+			  HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Asegura que el LED3 esté apagado
+		  }
+		  else if (raw_value_NTC > 1700 && raw_value_NTC <= 2700) {
+			  // Activa el LED2
+			  HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET); // Asegura que el LED1 esté apagado
+			  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+			  HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Asegura que el LED3 esté apagado
+		  }
+		  else if (raw_value_NTC > 2700) {
+			  // Activa el LED3
+			  HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET); // Asegura que el LED1 esté apagado
+			  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET); // Asegura que el LED2 esté apagado
+			  HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_SET);
+		  }
 
     /* USER CODE END WHILE */
 
@@ -368,6 +372,54 @@ static void MX_ADC2_Init(void)
 }
 
 /**
+  * @brief I2C1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_I2C1_Init(void)
+{
+
+  /* USER CODE BEGIN I2C1_Init 0 */
+
+  /* USER CODE END I2C1_Init 0 */
+
+  /* USER CODE BEGIN I2C1_Init 1 */
+
+  /* USER CODE END I2C1_Init 1 */
+  hi2c1.Instance = I2C1;
+  hi2c1.Init.Timing = 0x10D19CE4;
+  hi2c1.Init.OwnAddress1 = 0;
+  hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c1.Init.OwnAddress2 = 0;
+  hi2c1.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
+  hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure Analogue filter
+  */
+  if (HAL_I2CEx_ConfigAnalogFilter(&hi2c1, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure Digital filter
+  */
+  if (HAL_I2CEx_ConfigDigitalFilter(&hi2c1, 0) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN I2C1_Init 2 */
+
+  /* USER CODE END I2C1_Init 2 */
+
+}
+
+/**
   * @brief USART2 Initialization Function
   * @param None
   * @retval None
@@ -420,11 +472,17 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LD1_Pin|LD2_Pin|LD3_Pin|LD4_Pin
-                          |LD5_Pin|FAN_Pin|MOTORX_Pin|MOTORY_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LD1_Pin|SYSTEM_LED_Pin|LD2_Pin|LD3_Pin
+                          |MOTORX_Pin|MOTORY_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(ROW_1_GPIO_Port, ROW_1_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, ROW_2_Pin|ROW_4_Pin|ROW_3_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
@@ -432,23 +490,44 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LD1_Pin LD2_Pin LD3_Pin LD4_Pin
-                           LD5_Pin FAN_Pin MOTORX_Pin MOTORY_Pin */
-  GPIO_InitStruct.Pin = LD1_Pin|LD2_Pin|LD3_Pin|LD4_Pin
-                          |LD5_Pin|FAN_Pin|MOTORX_Pin|MOTORY_Pin;
+  /*Configure GPIO pins : LD1_Pin SYSTEM_LED_Pin LD2_Pin LD3_Pin
+                           ROW_1_Pin MOTORX_Pin MOTORY_Pin */
+  GPIO_InitStruct.Pin = LD1_Pin|SYSTEM_LED_Pin|LD2_Pin|LD3_Pin
+                          |ROW_1_Pin|MOTORX_Pin|MOTORY_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PB6 */
-  GPIO_InitStruct.Pin = GPIO_PIN_6;
+  /*Configure GPIO pins : LD4_Pin ROW_2_Pin ROW_4_Pin ROW_3_Pin */
+  GPIO_InitStruct.Pin = LD4_Pin|ROW_2_Pin|ROW_4_Pin|ROW_3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : COL_1_Pin */
+  GPIO_InitStruct.Pin = COL_1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(COL_1_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : COL_4_Pin */
+  GPIO_InitStruct.Pin = COL_4_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(COL_4_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : COL_2_Pin COL_3_Pin */
+  GPIO_InitStruct.Pin = COL_2_Pin|COL_3_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
   /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 

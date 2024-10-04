@@ -66,16 +66,28 @@ void Error_Handler(void);
 #define USART_RX_GPIO_Port GPIOA
 #define LD1_Pin GPIO_PIN_4
 #define LD1_GPIO_Port GPIOA
-#define LD2_Pin GPIO_PIN_5
+#define SYSTEM_LED_Pin GPIO_PIN_5
+#define SYSTEM_LED_GPIO_Port GPIOA
+#define LD2_Pin GPIO_PIN_6
 #define LD2_GPIO_Port GPIOA
-#define LD3_Pin GPIO_PIN_6
+#define LD3_Pin GPIO_PIN_7
 #define LD3_GPIO_Port GPIOA
-#define LD4_Pin GPIO_PIN_8
-#define LD4_GPIO_Port GPIOA
-#define LD5_Pin GPIO_PIN_9
-#define LD5_GPIO_Port GPIOA
-#define FAN_Pin GPIO_PIN_10
-#define FAN_GPIO_Port GPIOA
+#define LD4_Pin GPIO_PIN_0
+#define LD4_GPIO_Port GPIOB
+#define COL_1_Pin GPIO_PIN_10
+#define COL_1_GPIO_Port GPIOB
+#define COL_1_EXTI_IRQn EXTI15_10_IRQn
+#define COL_4_Pin GPIO_PIN_7
+#define COL_4_GPIO_Port GPIOC
+#define COL_4_EXTI_IRQn EXTI9_5_IRQn
+#define COL_2_Pin GPIO_PIN_8
+#define COL_2_GPIO_Port GPIOA
+#define COL_2_EXTI_IRQn EXTI9_5_IRQn
+#define COL_3_Pin GPIO_PIN_9
+#define COL_3_GPIO_Port GPIOA
+#define COL_3_EXTI_IRQn EXTI9_5_IRQn
+#define ROW_1_Pin GPIO_PIN_10
+#define ROW_1_GPIO_Port GPIOA
 #define MOTORX_Pin GPIO_PIN_11
 #define MOTORX_GPIO_Port GPIOA
 #define MOTORY_Pin GPIO_PIN_12
@@ -84,8 +96,12 @@ void Error_Handler(void);
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
-#define SWO_Pin GPIO_PIN_3
-#define SWO_GPIO_Port GPIOB
+#define ROW_2_Pin GPIO_PIN_3
+#define ROW_2_GPIO_Port GPIOB
+#define ROW_4_Pin GPIO_PIN_4
+#define ROW_4_GPIO_Port GPIOB
+#define ROW_3_Pin GPIO_PIN_5
+#define ROW_3_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

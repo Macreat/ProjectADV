@@ -1,0 +1,3 @@
+../Core/Src/keypad.c:8:16:keypad_debounce	16	static
+../Core/Src/keypad.c:24:9:keypad_scan_row	24	static
+../Core/Src/keypad.c:62:9:keypad_scan	24	static

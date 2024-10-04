@@ -1,4 +1,4 @@
-12:57:03 **** Incremental Build of configuration Debug for project ProjectR ****
+13:40:31 **** Incremental Build of configuration Debug for project ProjectR ****
 make -j8 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 ../Core/Src/main.c:524:13: warning: 'MX_ADC2_Init' defined but not used [-Wunused-function]
@@ -13,11 +13,11 @@ Finished building target: ProjectR.elf
 arm-none-eabi-size  ProjectR.elf 
 arm-none-eabi-objdump -h -S ProjectR.elf  > "ProjectR.list"
    text	   data	    bss	    dec	    hex	filename
-  29652	    124	   3428	  33204	   81b4	ProjectR.elf
+  29648	    124	   3428	  33200	   81b0	ProjectR.elf
 Finished building: default.size.stdout
  
 Finished building: ProjectR.list
  
 
-12:57:05 Build Finished. 0 errors, 2 warnings. (took 2s.639ms)
+13:40:39 Build Finished. 0 errors, 2 warnings. (took 8s.626ms)
 
