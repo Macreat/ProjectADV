@@ -1,17 +1,23 @@
-11:45:46 **** Incremental Build of configuration Debug for project ProjectR ****
+12:52:46 **** Incremental Build of configuration Debug for project ProjectR ****
 make -j8 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:521:13: warning: 'MX_ADC2_Init' defined but not used [-Wunused-function]
+  521 | static void MX_ADC2_Init(void)
+      |             ^~~~~~~~~~~~
+../Core/Src/main.c:454:13: warning: 'MX_ADC1_Init' defined but not used [-Wunused-function]
+  454 | static void MX_ADC1_Init(void)
+      |             ^~~~~~~~~~~~
 arm-none-eabi-gcc -o "ProjectR.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectR\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectR.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: ProjectR.elf
  
 arm-none-eabi-size  ProjectR.elf 
 arm-none-eabi-objdump -h -S ProjectR.elf  > "ProjectR.list"
    text	   data	    bss	    dec	    hex	filename
-  25916	    124	   3204	  29244	   723c	ProjectR.elf
+  29652	    124	   3428	  33204	   81b4	ProjectR.elf
 Finished building: default.size.stdout
  
 Finished building: ProjectR.list
  
 
-11:45:49 Build Finished. 0 errors, 0 warnings. (took 2s.983ms)
+12:52:49 Build Finished. 0 errors, 2 warnings. (took 2s.969ms)
 

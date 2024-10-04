@@ -51,9 +51,18 @@ I2C_HandleTypeDef hi2c1;
 
 UART_HandleTypeDef huart2;
 
+
+ADC_HandleTypeDef hadc1;
+ADC_HandleTypeDef hadc2;
+
 /* USER CODE BEGIN PV */
 uint8_t data_usart2;
 uint8_t newline[] = "\r\n";
+
+
+char uart_buff[20];
+uint16_t raw_value_NTC, raw_value_LDR;
+
 
 #define BUFFER_CAPACITY 10
 uint8_t keyboard_buffer_memory[BUFFER_CAPACITY];
@@ -76,14 +85,16 @@ static uint8_t cursor_y = 30;
 #define SYSTEM_LED_GPIO_Port GPIOA
 #define SYSTEM_LED_Pin GPIO_PIN_5
 
-//adding variables for CONTROL prj
- uint8_t password_correct = 0;
+volatile uint8_t passwordCorrect = 0;
 
 
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void PeriphCommonClock_Config(void);
+static void MX_ADC1_Init(void);
+static void MX_ADC2_Init(void);
 static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_I2C1_Init(void);
@@ -190,7 +201,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 	        uint8_t byte2 = 0;
 	        uint8_t id_incorrect2 = 0;
-	        uint8_t my_id2[] = "1004191436";  // correct sequence
+	        uint8_t my_id2[] = "123";  // correct sequence
 
 	        // Read from buffer and compare with correct key
 	        for (uint8_t idx2 = 0; idx2 < sizeof(my_id2) - 1; idx2++) {
@@ -216,7 +227,10 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	            ssd1306_WriteString("correct sequence", Font_6x8, White);
 	            ssd1306_UpdateScreen();
 	            HAL_UART_Transmit(&huart2, (uint8_t*)"correct sequence\n\r", 21, 10);
-	            password_correct  = 1 ;
+	            HAL_UART_Transmit(&huart2, (uint8_t*)"starting...\n\r", 14, 10);
+	            passwordCorrect = 1 ;
+	            return;
+
 
 
 	        } else {
@@ -229,6 +243,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 	        }
 
+	        // reset buffer after validation
 	        ring_buffer_reset(&keyboard_ring_buffer);
 	        memset(display_buffer, 0, sizeof(display_buffer)); // clean buffer on screen
 	        buffer_index = 0; // reset index buffer
@@ -284,26 +299,67 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  printf("Starting...\r\n");
+
   while (1)
   {
+	  if(passwordCorrect)
+	  {
+		  for (int i = 0 ; i < 1; i ++){
+			 printf("correct password. Welcome to our quality air system \r\n");
+			 passwordCorrect =0  ;
+		  }
 
-  // Solicitar contraseña hasta que sea correcta
-	 while (!password_correct)
-	 {
-	   printf("Please enter the password:\r\n");
-	   HAL_Delay(1000000);  // Solo para evitar una saturación de mensajes
 
-	   // Suponiendo que HAL_GPIO_EXTI_Callback se encargará de verificar la contraseña
-	   // Cuando la contraseña es correcta, cambiaremos `password_correct` a 1
-	   // Esto ocurrirá dentro de la función HAL_GPIO_EXTI_Callback que ya compara la contraseña.
-	   if (password_correct == 1){
-		   printf("Password correct, proceeding with the system...\r\n");
-		   HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, 1);
+		  HAL_ADC_Start(&hadc1);
+		 	   HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+		 	   raw_value_LDR  = HAL_ADC_GetValue(&hadc1);
+		 	   sprintf (uart_buff, "Light : %hu \r\n", raw_value_LDR);
+		 	   HAL_UART_Transmit(&huart2, (uint8_t*)uart_buff, strlen(uart_buff), HAL_MAX_DELAY);
 
-	   }
-	 }
+		 	   HAL_ADC_Start(&hadc2);
+		 	   HAL_ADC_PollForConversion(&hadc2, HAL_MAX_DELAY);
+		 	   raw_value_NTC  = HAL_ADC_GetValue(&hadc2);
+		 	   sprintf (uart_buff, "NTC : %hu \r\n", raw_value_NTC);
+		 	   HAL_UART_Transmit(&huart2, (uint8_t*)uart_buff, strlen(uart_buff), HAL_MAX_DELAY);
 
-	 // Aquí una vez la contraseña es correcta, ya se puede proceder a otras interacciones.
+		 	   HAL_Delay(1000);
+
+		 	   //conditional for LDR incidence
+		 	   if ( raw_value_LDR > 3000){
+		 	   		   HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin , 1 );
+
+		 	   	   }else{
+		 	   		   HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin , 0 );
+
+		 	   	   }
+
+		 	   // conditional for NTC incidence
+
+		 	   if (raw_value_NTC <= 1250) {
+		 	       // Activa el LED1
+		 	       HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET);
+		 	       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET); // Asegura que el LED2 esté apagado
+		 	       HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Asegura que el LED3 esté apagado
+		 	   }
+		 	   else if (raw_value_NTC > 1250 && raw_value_NTC <= 2500) {
+		 	       // Activa el LED2
+		 	       HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET); // Asegura que el LED1 esté apagado
+		 	       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+		 	       HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Asegura que el LED3 esté apagado
+		 	   }
+		 	   else if (raw_value_NTC > 2500) {
+		 	       // Activa el LED3
+		 	       HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET); // Asegura que el LED1 esté apagado
+		 	       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET); // Asegura que el LED2 esté apagado
+		 	       HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_SET);
+		 	   }
+
+	  }
+
+
+
+
 
 
 
@@ -364,6 +420,162 @@ void SystemClock_Config(void)
   }
 }
 
+
+/**
+  * @brief Peripherals Common Clock Configuration
+  * @retval None
+  */
+void PeriphCommonClock_Config(void)
+{
+  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
+
+  /** Initializes the peripherals clock
+  */
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
+  PeriphClkInit.AdcClockSelection = RCC_ADCCLKSOURCE_PLLSAI1;
+  PeriphClkInit.PLLSAI1.PLLSAI1Source = RCC_PLLSOURCE_HSI;
+  PeriphClkInit.PLLSAI1.PLLSAI1M = 1;
+  PeriphClkInit.PLLSAI1.PLLSAI1N = 8;
+  PeriphClkInit.PLLSAI1.PLLSAI1P = RCC_PLLP_DIV7;
+  PeriphClkInit.PLLSAI1.PLLSAI1Q = RCC_PLLQ_DIV2;
+  PeriphClkInit.PLLSAI1.PLLSAI1R = RCC_PLLR_DIV2;
+  PeriphClkInit.PLLSAI1.PLLSAI1ClockOut = RCC_PLLSAI1_ADC1CLK;
+  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+  {
+    Error_Handler();
+  }
+}
+
+/**
+  * @brief ADC1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_ADC1_Init(void)
+{
+
+  /* USER CODE BEGIN ADC1_Init 0 */
+
+  /* USER CODE END ADC1_Init 0 */
+
+  ADC_MultiModeTypeDef multimode = {0};
+  ADC_ChannelConfTypeDef sConfig = {0};
+
+  /* USER CODE BEGIN ADC1_Init 1 */
+
+  /* USER CODE END ADC1_Init 1 */
+
+  /** Common config
+  */
+  hadc1.Instance = ADC1;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV2;
+  hadc1.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
+  hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+  hadc1.Init.LowPowerAutoWait = DISABLE;
+  hadc1.Init.ContinuousConvMode = DISABLE;
+  hadc1.Init.NbrOfConversion = 1;
+  hadc1.Init.DiscontinuousConvMode = DISABLE;
+  hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+  hadc1.Init.DMAContinuousRequests = DISABLE;
+  hadc1.Init.Overrun = ADC_OVR_DATA_PRESERVED;
+  hadc1.Init.OversamplingMode = DISABLE;
+  if (HAL_ADC_Init(&hadc1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure the ADC multi-mode
+  */
+  multimode.Mode = ADC_MODE_INDEPENDENT;
+  if (HAL_ADCEx_MultiModeConfigChannel(&hadc1, &multimode) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure Regular Channel
+  */
+  sConfig.Channel = ADC_CHANNEL_5;
+  sConfig.Rank = ADC_REGULAR_RANK_1;
+  sConfig.SamplingTime = ADC_SAMPLETIME_12CYCLES_5;
+  sConfig.SingleDiff = ADC_SINGLE_ENDED;
+  sConfig.OffsetNumber = ADC_OFFSET_NONE;
+  sConfig.Offset = 0;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN ADC1_Init 2 */
+
+  /* USER CODE END ADC1_Init 2 */
+
+}
+
+/**
+  * @brief ADC2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_ADC2_Init(void)
+{
+
+  /* USER CODE BEGIN ADC2_Init 0 */
+
+  /* USER CODE END ADC2_Init 0 */
+
+  ADC_ChannelConfTypeDef sConfig = {0};
+
+  /* USER CODE BEGIN ADC2_Init 1 */
+
+  /* USER CODE END ADC2_Init 1 */
+
+  /** Common config
+  */
+  hadc2.Instance = ADC2;
+  hadc2.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV2;
+  hadc2.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc2.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc2.Init.ScanConvMode = ADC_SCAN_DISABLE;
+  hadc2.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+  hadc2.Init.LowPowerAutoWait = DISABLE;
+  hadc2.Init.ContinuousConvMode = DISABLE;
+  hadc2.Init.NbrOfConversion = 1;
+  hadc2.Init.DiscontinuousConvMode = DISABLE;
+  hadc2.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc2.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+  hadc2.Init.DMAContinuousRequests = DISABLE;
+  hadc2.Init.Overrun = ADC_OVR_DATA_PRESERVED;
+  hadc2.Init.OversamplingMode = DISABLE;
+  if (HAL_ADC_Init(&hadc2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure Regular Channel
+  */
+  sConfig.Channel = ADC_CHANNEL_6;
+  sConfig.Rank = ADC_REGULAR_RANK_1;
+  sConfig.SamplingTime = ADC_SAMPLETIME_2CYCLES_5;
+  sConfig.SingleDiff = ADC_SINGLE_ENDED;
+  sConfig.OffsetNumber = ADC_OFFSET_NONE;
+  sConfig.Offset = 0;
+  if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN ADC2_Init 2 */
+
+  /* USER CODE END ADC2_Init 2 */
+
+}
+
+/**
+  * @brief USART2 Initialization Function
+  * @param None
+  * @retval None
+  */
 /**
   * @brief I2C1 Initialization Function
   * @param None
