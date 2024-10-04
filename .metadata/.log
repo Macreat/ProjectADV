@@ -19,3 +19,6 @@ Command-line arguments:  -os win32 -ws win32 -arch x86_64
 
 !ENTRY org.eclipse.cdt.core 1 0 2024-10-03 18:37:10.059
 !MESSAGE Indexed 'ProjectProof' (27 sources, 125 headers) in 9.04 sec: 13,168 declarations; 63,459 references; 3 unresolved inclusions; 46 syntax errors; 171 unresolved names (0.22%)
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2024-10-04 09:34:01.129
+!MESSAGE Request for monitor: 'RequestMonitor (org.eclipse.cdt.dsf.gdb.internal.ui.actions.DsfTerminateCommand$3$1@1467868a): Status OK: unknown code=0 OK' resulted in a rejected execution exception.

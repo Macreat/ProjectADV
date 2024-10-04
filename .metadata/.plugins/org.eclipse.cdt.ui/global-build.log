@@ -333,3 +333,436 @@ Finished building: default.size.stdout
  
 Finished building: ProjectProof.list
  
+03:35:07 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/stm32l4xx_hal_msp.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/stm32l4xx_hal_msp.d" -MT"Core/Src/stm32l4xx_hal_msp.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/stm32l4xx_hal_msp.o"
+arm-none-eabi-gcc "../Core/Src/stm32l4xx_it.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/stm32l4xx_it.d" -MT"Core/Src/stm32l4xx_it.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/stm32l4xx_it.o"
+../Core/Src/main.c:77:1: error: unknown type name 'bool'
+   77 | bool motor_active = false;
+      | ^~~~
+../Core/Src/main.c:26:1: note: 'bool' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+   25 | #include <string.h>
+  +++ |+#include <stdbool.h>
+   26 | 
+../Core/Src/main.c:77:21: error: 'false' undeclared here (not in a function)
+   77 | bool motor_active = false;
+      |                     ^~~~~
+../Core/Src/main.c:77:21: note: 'false' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+../Core/Src/main.c:78:1: error: unknown type name 'bool'
+   78 | bool motor_direction = true;  // Sentido del motor
+      | ^~~~
+../Core/Src/main.c:78:1: note: 'bool' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+../Core/Src/main.c:78:24: error: 'true' undeclared here (not in a function)
+   78 | bool motor_direction = true;  // Sentido del motor
+      |                        ^~~~
+../Core/Src/main.c:78:24: note: 'true' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:181:46: error: 'lux' undeclared (first use in this function)
+  181 |            sprintf (msg, "Light : %hu \r\n", lux);
+      |                                              ^~~
+../Core/Src/main.c:181:46: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/main.c:186:12: error: 'raw_value' undeclared (first use in this function); did you mean 'raw_value_LDR'?
+  186 |            raw_value  = HAL_ADC_GetValue(&hadc2);
+      |            ^~~~~~~~~
+      |            raw_value_LDR
+../Core/Src/main.c:191:43: error: 'LED1_Pin' undeclared (first use in this function); did you mean 'LD1_Pin'?
+  191 |                  HAL_GPIO_WritePin(GPIOA, LED1_Pin, GPIO_PIN_SET);  // LED indicador
+      |                                           ^~~~~~~~
+      |                                           LD1_Pin
+../Core/Src/main.c:192:43: error: 'LED2_Pin' undeclared (first use in this function); did you mean 'LD2_Pin'?
+  192 |                  HAL_GPIO_WritePin(GPIOA, LED2_Pin, GPIO_PIN_RESET);
+      |                                           ^~~~~~~~
+      |                                           LD2_Pin
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+make: *** Waiting for unfinished jobs....
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+03:35:39 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:77:1: error: unknown type name 'bool'
+   77 | bool motor_active = false;
+      | ^~~~
+../Core/Src/main.c:26:1: note: 'bool' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+   25 | #include <string.h>
+  +++ |+#include <stdbool.h>
+   26 | 
+../Core/Src/main.c:77:21: error: 'false' undeclared here (not in a function)
+   77 | bool motor_active = false;
+      |                     ^~~~~
+../Core/Src/main.c:77:21: note: 'false' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+../Core/Src/main.c:78:1: error: unknown type name 'bool'
+   78 | bool motor_direction = true;  // Sentido del motor
+      | ^~~~
+../Core/Src/main.c:78:1: note: 'bool' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+../Core/Src/main.c:78:24: error: 'true' undeclared here (not in a function)
+   78 | bool motor_direction = true;  // Sentido del motor
+      |                        ^~~~
+../Core/Src/main.c:78:24: note: 'true' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:181:46: error: 'lux' undeclared (first use in this function)
+  181 |            sprintf (msg, "Light : %hu \r\n", lux);
+      |                                              ^~~
+../Core/Src/main.c:181:46: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/main.c:186:12: error: 'raw_value' undeclared (first use in this function); did you mean 'raw_value_LDR'?
+  186 |            raw_value  = HAL_ADC_GetValue(&hadc2);
+      |            ^~~~~~~~~
+      |            raw_value_LDR
+../Core/Src/main.c:200:43: error: 'LED1_Pin' undeclared (first use in this function); did you mean 'LD1_Pin'?
+  200 |                  HAL_GPIO_WritePin(GPIOA, LED1_Pin, GPIO_PIN_RESET);  // Apagar LED1
+      |                                           ^~~~~~~~
+      |                                           LD1_Pin
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+03:35:52 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:77:1: error: unknown type name 'bool'
+   77 | bool motor_active = false;
+      | ^~~~
+../Core/Src/main.c:26:1: note: 'bool' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+   25 | #include <string.h>
+  +++ |+#include <stdbool.h>
+   26 | 
+../Core/Src/main.c:77:21: error: 'false' undeclared here (not in a function)
+   77 | bool motor_active = false;
+      |                     ^~~~~
+../Core/Src/main.c:77:21: note: 'false' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+../Core/Src/main.c:78:1: error: unknown type name 'bool'
+   78 | bool motor_direction = true;  // Sentido del motor
+      | ^~~~
+../Core/Src/main.c:78:1: note: 'bool' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+../Core/Src/main.c:78:24: error: 'true' undeclared here (not in a function)
+   78 | bool motor_direction = true;  // Sentido del motor
+      |                        ^~~~
+../Core/Src/main.c:78:24: note: 'true' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:181:46: error: 'lux' undeclared (first use in this function)
+  181 |            sprintf (msg, "Light : %hu \r\n", lux);
+      |                                              ^~~
+../Core/Src/main.c:181:46: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/main.c:186:12: error: 'raw_value' undeclared (first use in this function); did you mean 'raw_value_LDR'?
+  186 |            raw_value  = HAL_ADC_GetValue(&hadc2);
+      |            ^~~~~~~~~
+      |            raw_value_LDR
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+03:36:13 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:182:46: error: 'lux' undeclared (first use in this function)
+  182 |            sprintf (msg, "Light : %hu \r\n", lux);
+      |                                              ^~~
+../Core/Src/main.c:182:46: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/main.c:187:12: error: 'raw_value' undeclared (first use in this function); did you mean 'raw_value_LDR'?
+  187 |            raw_value  = HAL_ADC_GetValue(&hadc2);
+      |            ^~~~~~~~~
+      |            raw_value_LDR
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+03:36:32 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:187:12: error: 'raw_value' undeclared (first use in this function); did you mean 'raw_value_LDR'?
+  187 |            raw_value  = HAL_ADC_GetValue(&hadc2);
+      |            ^~~~~~~~~
+      |            raw_value_LDR
+../Core/Src/main.c:187:12: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+03:36:45 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "ProjectProof.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectProof\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectProof.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectProof.elf
+ 
+arm-none-eabi-size  ProjectProof.elf 
+arm-none-eabi-objdump -h -S ProjectProof.elf  > "ProjectProof.list"
+   text	   data	    bss	    dec	    hex	filename
+  25560	     96	   2280	  27936	   6d20	ProjectProof.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectProof.list
+ 
+03:37:03 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-size  ProjectProof.elf 
+   text	   data	    bss	    dec	    hex	filename
+  25560	     96	   2280	  27936	   6d20	ProjectProof.elf
+Finished building: default.size.stdout
+ 
+08:02:04 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-size  ProjectProof.elf 
+   text	   data	    bss	    dec	    hex	filename
+  25560	     96	   2280	  27936	   6d20	ProjectProof.elf
+Finished building: default.size.stdout
+ 
+08:06:28 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "ProjectProof.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectProof\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectProof.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectProof.elf
+ 
+arm-none-eabi-size  ProjectProof.elf 
+arm-none-eabi-objdump -h -S ProjectProof.elf  > "ProjectProof.list"
+   text	   data	    bss	    dec	    hex	filename
+  25104	     92	   2268	  27464	   6b48	ProjectProof.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectProof.list
+ 
+08:06:51 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "ProjectProof.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectProof\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectProof.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectProof.elf
+ 
+arm-none-eabi-size  ProjectProof.elf 
+arm-none-eabi-objdump -h -S ProjectProof.elf  > "ProjectProof.list"
+   text	   data	    bss	    dec	    hex	filename
+  25104	     92	   2268	  27464	   6b48	ProjectProof.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectProof.list
+ 
+08:08:09 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "ProjectProof.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectProof\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectProof.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectProof.elf
+ 
+arm-none-eabi-size  ProjectProof.elf 
+arm-none-eabi-objdump -h -S ProjectProof.elf  > "ProjectProof.list"
+   text	   data	    bss	    dec	    hex	filename
+  25120	     92	   2268	  27480	   6b58	ProjectProof.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectProof.list
+ 
+08:13:05 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "ProjectProof.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectProof\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectProof.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectProof.elf
+ 
+arm-none-eabi-size  ProjectProof.elf 
+arm-none-eabi-objdump -h -S ProjectProof.elf  > "ProjectProof.list"
+   text	   data	    bss	    dec	    hex	filename
+  25084	     92	   2268	  27444	   6b34	ProjectProof.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectProof.list
+ 
+08:32:19 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:187:12: error: 'raw_value' undeclared (first use in this function); did you mean 'raw_value_LDR'?
+  187 |            raw_value  = HAL_ADC_GetValue(&hadc2);
+      |            ^~~~~~~~~
+      |            raw_value_LDR
+../Core/Src/main.c:187:12: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+08:32:33 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "ProjectProof.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectProof\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectProof.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectProof.elf
+ 
+arm-none-eabi-size  ProjectProof.elf 
+arm-none-eabi-objdump -h -S ProjectProof.elf  > "ProjectProof.list"
+   text	   data	    bss	    dec	    hex	filename
+  25560	     96	   2280	  27936	   6d20	ProjectProof.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectProof.list
+ 
+09:09:44 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "ProjectProof.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectProof\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectProof.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectProof.elf
+ 
+arm-none-eabi-size  ProjectProof.elf 
+arm-none-eabi-objdump -h -S ProjectProof.elf  > "ProjectProof.list"
+   text	   data	    bss	    dec	    hex	filename
+  25068	     92	   2268	  27428	   6b24	ProjectProof.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectProof.list
+ 
+09:20:24 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:76:1: error: unknown type name 'bool'
+   76 | bool motor_active = false;
+      | ^~~~
+../Core/Src/main.c:26:1: note: 'bool' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+   25 | #include <string.h>
+  +++ |+#include <stdbool.h>
+   26 | 
+../Core/Src/main.c:76:21: error: 'false' undeclared here (not in a function)
+   76 | bool motor_active = false;
+      |                     ^~~~~
+../Core/Src/main.c:76:21: note: 'false' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+../Core/Src/main.c:77:1: error: unknown type name 'bool'
+   77 | bool motor_direction = true;  // true = sentido A, false = sentido B
+      | ^~~~
+../Core/Src/main.c:77:1: note: 'bool' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+../Core/Src/main.c:77:24: error: 'true' undeclared here (not in a function)
+   77 | bool motor_direction = true;  // true = sentido A, false = sentido B
+      |                        ^~~~
+../Core/Src/main.c:77:24: note: 'true' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:152:12: error: 'raw_value_LDR' undeclared (first use in this function); did you mean 'raw_value'?
+  152 |            raw_value_LDR  = HAL_ADC_GetValue(&hadc2);
+      |            ^~~~~~~~~~~~~
+      |            raw_value
+../Core/Src/main.c:152:12: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/main.c:159:12: error: unknown type name 'bool'
+  159 |            bool motor_active = false;
+      |            ^~~~
+../Core/Src/main.c:159:12: note: 'bool' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+../Core/Src/main.c:160:12: error: unknown type name 'bool'
+  160 |            bool motor_direction = true;  // true = sentido A, false = sentido B
+      |            ^~~~
+../Core/Src/main.c:160:12: note: 'bool' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+../Core/Src/main.c:160:17: warning: variable 'motor_direction' set but not used [-Wunused-but-set-variable]
+  160 |            bool motor_direction = true;  // true = sentido A, false = sentido B
+      |                 ^~~~~~~~~~~~~~~
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+09:20:51 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:153:12: error: 'raw_value_LDR' undeclared (first use in this function); did you mean 'raw_value'?
+  153 |            raw_value_LDR  = HAL_ADC_GetValue(&hadc2);
+      |            ^~~~~~~~~~~~~
+      |            raw_value
+../Core/Src/main.c:153:12: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/main.c:161:17: warning: variable 'motor_direction' set but not used [-Wunused-but-set-variable]
+  161 |            bool motor_direction = true;  // true = sentido A, false = sentido B
+      |                 ^~~~~~~~~~~~~~~
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+09:21:18 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:164:17: warning: variable 'motor_direction' set but not used [-Wunused-but-set-variable]
+  164 |            bool motor_direction = true;  // true = sentido A, false = sentido B
+      |                 ^~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "ProjectProof.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectProof\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectProof.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectProof.elf
+ 
+arm-none-eabi-size  ProjectProof.elf 
+arm-none-eabi-objdump -h -S ProjectProof.elf  > "ProjectProof.list"
+   text	   data	    bss	    dec	    hex	filename
+  25304	     92	   2268	  27664	   6c10	ProjectProof.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectProof.list
+ 
+09:32:53 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:165:16: warning: unused variable 'threshold_LDR' [-Wunused-variable]
+  165 |            int threshold_LDR = 2500;     // Umbral del LDR, ajustable según sea necesario
+      |                ^~~~~~~~~~~~~
+../Core/Src/main.c:164:17: warning: variable 'motor_direction' set but not used [-Wunused-but-set-variable]
+  164 |            bool motor_direction = true;  // true = sentido A, false = sentido B
+      |                 ^~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "ProjectProof.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectProof\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectProof.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectProof.elf
+ 
+arm-none-eabi-size  ProjectProof.elf 
+arm-none-eabi-objdump -h -S ProjectProof.elf  > "ProjectProof.list"
+   text	   data	    bss	    dec	    hex	filename
+  25300	     92	   2268	  27660	   6c0c	ProjectProof.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectProof.list
+ 
+09:33:47 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:165:16: warning: unused variable 'threshold_LDR' [-Wunused-variable]
+  165 |            int threshold_LDR = 2500;     // Umbral del LDR, ajustable según sea necesario
+      |                ^~~~~~~~~~~~~
+../Core/Src/main.c:164:17: warning: variable 'motor_direction' set but not used [-Wunused-but-set-variable]
+  164 |            bool motor_direction = true;  // true = sentido A, false = sentido B
+      |                 ^~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "ProjectProof.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectProof\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectProof.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectProof.elf
+ 
+arm-none-eabi-size  ProjectProof.elf 
+arm-none-eabi-objdump -h -S ProjectProof.elf  > "ProjectProof.list"
+   text	   data	    bss	    dec	    hex	filename
+  25324	     92	   2268	  27684	   6c24	ProjectProof.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectProof.list
+ 
+09:34:00 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:165:16: warning: unused variable 'threshold_LDR' [-Wunused-variable]
+  165 |            int threshold_LDR = 2500;     // Umbral del LDR, ajustable según sea necesario
+      |                ^~~~~~~~~~~~~
+../Core/Src/main.c:164:17: warning: variable 'motor_direction' set but not used [-Wunused-but-set-variable]
+  164 |            bool motor_direction = true;  // true = sentido A, false = sentido B
+      |                 ^~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "ProjectProof.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectProof\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectProof.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectProof.elf
+ 
+arm-none-eabi-size  ProjectProof.elf 
+arm-none-eabi-objdump -h -S ProjectProof.elf  > "ProjectProof.list"
+   text	   data	    bss	    dec	    hex	filename
+  25312	     92	   2268	  27672	   6c18	ProjectProof.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectProof.list
+ 
+09:36:31 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-size  ProjectProof.elf 
+   text	   data	    bss	    dec	    hex	filename
+  25312	     92	   2268	  27672	   6c18	ProjectProof.elf
+Finished building: default.size.stdout
+ 
+09:39:43 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:165:16: warning: unused variable 'threshold_LDR' [-Wunused-variable]
+  165 |            int threshold_LDR = 2500;     // Umbral del LDR, ajustable según sea necesario
+      |                ^~~~~~~~~~~~~
+../Core/Src/main.c:164:17: warning: variable 'motor_direction' set but not used [-Wunused-but-set-variable]
+  164 |            bool motor_direction = true;  // true = sentido A, false = sentido B
+      |                 ^~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "ProjectProof.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectProof\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectProof.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectProof.elf
+ 
+arm-none-eabi-size  ProjectProof.elf 
+arm-none-eabi-objdump -h -S ProjectProof.elf  > "ProjectProof.list"
+   text	   data	    bss	    dec	    hex	filename
+  25308	     92	   2268	  27668	   6c14	ProjectProof.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectProof.list
+ 
+09:43:05 **** Incremental Build of configuration Debug for project ProjectProof ****
+make -j8 all 
+arm-none-eabi-size  ProjectProof.elf 
+   text	   data	    bss	    dec	    hex	filename
+  25308	     92	   2268	  27668	   6c14	ProjectProof.elf
+Finished building: default.size.stdout
+ 
