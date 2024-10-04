@@ -21,7 +21,14 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <string.h> //
+#include "keypad.h" //
 
+
+#include "ring_buffer.h"
+#include"ssd1306.h"
+#include"ssd1306_fonts.h"
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -40,31 +47,195 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-ADC_HandleTypeDef hadc1;
-ADC_HandleTypeDef hadc2;
-
 I2C_HandleTypeDef hi2c1;
 
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
+uint8_t data_usart2;
+uint8_t newline[] = "\r\n";
+
+#define BUFFER_CAPACITY 10
+uint8_t keyboard_buffer_memory[BUFFER_CAPACITY];
+ring_buffer_t keyboard_ring_buffer;
+uint8_t first_key_pressed = 0;
+uint8_t cursor_x_position = 10;
+uint8_t cursor_y_position = 30;
+uint8_t max_cursor_x_position = 80;
+
+#define MAX_DISPLAY_CHARS 20 // SIZE of chart and screen
+
+//buffer to store the key sequence
+static char display_buffer[MAX_DISPLAY_CHARS + 1]; // +1 for nule value
+static uint8_t buffer_index = 0;
+
+// variables for actual cursor position on screen
+static uint8_t cursor_x = 10;
+static uint8_t cursor_y = 30;
+// adding variables for LED control
+#define SYSTEM_LED_GPIO_Port GPIOA
+#define SYSTEM_LED_Pin GPIO_PIN_5
+
 
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-void PeriphCommonClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_I2C1_Init(void);
-static void MX_ADC1_Init(void);
-static void MX_ADC2_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+/*
+ * Function to redirect printf output to UART.
+ *
+ * Purpose:
+ * This function overrides the standard `_write` function to allow the
+ * usage of `printf` in embedded systems without a standard output. It
+ * redirects the printf output to UART for debugging or serial communication.
+ *
+ * Parameters:
+ * - file: Not used, required by the function signature.
+ * - ptr: Pointer to the data to be transmitted.
+ * - len: Length of the data to be transmitted.
+ *
+ * Functionality:
+ * - It sends the data pointed to by `ptr` via UART using HAL_UART_Transmit.
+ * - It returns the length of the data transmitted.
+ *
+ * Use case:
+ * By using this function, any call to `printf` will output the message
+ * to the UART interface, which can be monitored with a serial console.
+ */
+
+int _write(int file, char *ptr, int len)
+{
+  // to using printf
+  HAL_UART_Transmit(&huart2, (uint8_t *)ptr, len, 10);
+  return len;
+}
+
+/*
+ * Function to handle external interrupt callbacks for GPIO pins (keypad input).
+ *
+ * Purpose:
+ * This function is called when a GPIO interrupt occurs. It scans the keypad for the pressed key,
+ * handles special cases ('*' to reset the sequence, '#' to validate the password), and updates
+ * the OLED display and UART based on the input.
+ *
+ * Parameters:
+ * - GPIO_Pin: The pin number where the interrupt was triggered.
+ *
+ * Functionality:
+ * - Detects the key pressed on the keypad.
+ * - If '*' is pressed, the input sequence is reset.
+ * - If a valid key is pressed, it is added to the ring buffer and displayed on the OLED.
+ * - If '#' is pressed, the entered sequence is validated against a predefined correct sequence.
+ * - The result of the validation (correct or incorrect) is displayed on the OLED and transmitted via UART.
+ * - The buffer is reset after validation.
+ */
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+	uint8_t key_pressed = keypad_scan(GPIO_Pin);
+
+	    if (key_pressed != 0xFF) {
+	        // when '*' is pressed, the sequence is RESET
+	        if (key_pressed == '*') {
+	            ring_buffer_reset(&keyboard_ring_buffer);
+	            memset(display_buffer, 0, sizeof(display_buffer)); //clean actual buffer on the screen
+	            buffer_index = 0; // reset index on buffer
+
+	            ssd1306_Fill(Black);
+	            ssd1306_SetCursor(10, 20);
+	            ssd1306_WriteString("sequence restarted", Font_6x8, White);
+	            ssd1306_UpdateScreen();
+	            HAL_UART_Transmit(&huart2, (uint8_t*)"Sequence restarted\n\r", 22, 10);
+	            return;
+	        }
+
+	        // Write the key to the ring buffer
+	        if (key_pressed != '#') {
+	            ring_buffer_write(&keyboard_ring_buffer, key_pressed);
+
+	            // add chart to the buffer
+	            if (buffer_index < MAX_DISPLAY_CHARS) {
+	                display_buffer[buffer_index++] = key_pressed;
+	                display_buffer[buffer_index] = '\0'; // Null-terminar el buffer
+
+	                // clean screen and show buffer content on screen
+	                ssd1306_Fill(Black);
+	                ssd1306_SetCursor(10, 30);
+	                ssd1306_WriteString(display_buffer, Font_6x8, White);
+	                ssd1306_UpdateScreen();
+
+	                // send chart via UART
+	                HAL_UART_Transmit(&huart2, &key_pressed, 1, 10);
+	            }
+	            return;
+	        }
+
+
+
+	        // proccoed when  '#' is pressed , we verify the password entered
+
+
+
+	        uint8_t byte2 = 0;
+	        uint8_t id_incorrect2 = 0;
+	        uint8_t my_id2[] = "1004191436";  // correct sequence
+
+	        // Read from buffer and compare with correct key
+	        for (uint8_t idx2 = 0; idx2 < sizeof(my_id2) - 1; idx2++) {
+	            if (ring_buffer_read(&keyboard_ring_buffer, &byte2) != 0) {
+	                if (byte2 != my_id2[idx2]) {
+	                    id_incorrect2 = 1;  // Mark as incorrect if no match
+
+
+	                    break;
+	                }
+	            } else {
+	                id_incorrect2 = 1;  // if there is no space in buffer
+	                break;
+	            }
+	        }
+
+	        HAL_UART_Transmit(&huart2, (uint8_t*)"\n", 1, 10);
+
+	        if (!id_incorrect2) {
+	            // success
+	            ssd1306_Fill(Black);
+	            ssd1306_SetCursor(10, 20);
+	            ssd1306_WriteString("correct sequence", Font_6x8, White);
+	            ssd1306_UpdateScreen();
+	            HAL_UART_Transmit(&huart2, (uint8_t*)"correct sequence\n\r", 21, 10);
+	            HAL_UART_Transmit(&huart2, (uint8_t*)"starting...\n\r", 14, 10);
+
+
+	        } else {
+	            //  error
+	            ssd1306_Fill(Black);
+	            ssd1306_SetCursor(10, 20);
+	            ssd1306_WriteString("error ", Font_6x8, White);
+	            ssd1306_UpdateScreen();
+	            HAL_UART_Transmit(&huart2, (uint8_t*)" incorrect sequence \n\r", 12, 10);
+
+	        }
+
+	        // reset buffer after validation
+	        ring_buffer_reset(&keyboard_ring_buffer);
+	        memset(display_buffer, 0, sizeof(display_buffer)); // clean buffer on screen
+	        buffer_index = 0; // reset index buffer
+	        cursor_x = 10;  //Resets the horizontal cursor position
+	        cursor_y = 30;  // Restarts the vertical position of the course
+
+	    }
+}
+
 
 /* USER CODE END 0 */
 
@@ -91,9 +262,6 @@ int main(void)
   /* Configure the system clock */
   SystemClock_Config();
 
-/* Configure the peripherals common clocks */
-  PeriphCommonClock_Config();
-
   /* USER CODE BEGIN SysInit */
 
   /* USER CODE END SysInit */
@@ -102,14 +270,19 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   MX_I2C1_Init();
-  MX_ADC1_Init();
-  MX_ADC2_Init();
   /* USER CODE BEGIN 2 */
+  ring_buffer_init(&keyboard_ring_buffer, keyboard_buffer_memory, BUFFER_CAPACITY);
+  ssd1306_Init();
+  ssd1306_Fill(Black);
+  ssd1306_SetCursor(10,20);
+  ssd1306_WriteString("Starting...\r\n",Font_6x8,White);
+  ssd1306_UpdateScreen();
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  printf("Starting...\r\n");
   while (1)
   {
     /* USER CODE END WHILE */
@@ -167,156 +340,6 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-}
-
-/**
-  * @brief Peripherals Common Clock Configuration
-  * @retval None
-  */
-void PeriphCommonClock_Config(void)
-{
-  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
-
-  /** Initializes the peripherals clock
-  */
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
-  PeriphClkInit.AdcClockSelection = RCC_ADCCLKSOURCE_PLLSAI1;
-  PeriphClkInit.PLLSAI1.PLLSAI1Source = RCC_PLLSOURCE_MSI;
-  PeriphClkInit.PLLSAI1.PLLSAI1M = 1;
-  PeriphClkInit.PLLSAI1.PLLSAI1N = 16;
-  PeriphClkInit.PLLSAI1.PLLSAI1P = RCC_PLLP_DIV7;
-  PeriphClkInit.PLLSAI1.PLLSAI1Q = RCC_PLLQ_DIV2;
-  PeriphClkInit.PLLSAI1.PLLSAI1R = RCC_PLLR_DIV2;
-  PeriphClkInit.PLLSAI1.PLLSAI1ClockOut = RCC_PLLSAI1_ADC1CLK;
-  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
-  {
-    Error_Handler();
-  }
-}
-
-/**
-  * @brief ADC1 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_ADC1_Init(void)
-{
-
-  /* USER CODE BEGIN ADC1_Init 0 */
-
-  /* USER CODE END ADC1_Init 0 */
-
-  ADC_MultiModeTypeDef multimode = {0};
-  ADC_ChannelConfTypeDef sConfig = {0};
-
-  /* USER CODE BEGIN ADC1_Init 1 */
-
-  /* USER CODE END ADC1_Init 1 */
-
-  /** Common config
-  */
-  hadc1.Instance = ADC1;
-  hadc1.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
-  hadc1.Init.Resolution = ADC_RESOLUTION_12B;
-  hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-  hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
-  hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
-  hadc1.Init.LowPowerAutoWait = DISABLE;
-  hadc1.Init.ContinuousConvMode = DISABLE;
-  hadc1.Init.NbrOfConversion = 1;
-  hadc1.Init.DiscontinuousConvMode = DISABLE;
-  hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
-  hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
-  hadc1.Init.DMAContinuousRequests = DISABLE;
-  hadc1.Init.Overrun = ADC_OVR_DATA_PRESERVED;
-  hadc1.Init.OversamplingMode = DISABLE;
-  if (HAL_ADC_Init(&hadc1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  /** Configure the ADC multi-mode
-  */
-  multimode.Mode = ADC_MODE_INDEPENDENT;
-  if (HAL_ADCEx_MultiModeConfigChannel(&hadc1, &multimode) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  /** Configure Regular Channel
-  */
-  sConfig.Channel = ADC_CHANNEL_5;
-  sConfig.Rank = ADC_REGULAR_RANK_1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_12CYCLES_5;
-  sConfig.SingleDiff = ADC_SINGLE_ENDED;
-  sConfig.OffsetNumber = ADC_OFFSET_NONE;
-  sConfig.Offset = 0;
-  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN ADC1_Init 2 */
-
-  /* USER CODE END ADC1_Init 2 */
-
-}
-
-/**
-  * @brief ADC2 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_ADC2_Init(void)
-{
-
-  /* USER CODE BEGIN ADC2_Init 0 */
-
-  /* USER CODE END ADC2_Init 0 */
-
-  ADC_ChannelConfTypeDef sConfig = {0};
-
-  /* USER CODE BEGIN ADC2_Init 1 */
-
-  /* USER CODE END ADC2_Init 1 */
-
-  /** Common config
-  */
-  hadc2.Instance = ADC2;
-  hadc2.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
-  hadc2.Init.Resolution = ADC_RESOLUTION_12B;
-  hadc2.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-  hadc2.Init.ScanConvMode = ADC_SCAN_DISABLE;
-  hadc2.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
-  hadc2.Init.LowPowerAutoWait = DISABLE;
-  hadc2.Init.ContinuousConvMode = DISABLE;
-  hadc2.Init.NbrOfConversion = 1;
-  hadc2.Init.DiscontinuousConvMode = DISABLE;
-  hadc2.Init.ExternalTrigConv = ADC_SOFTWARE_START;
-  hadc2.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
-  hadc2.Init.DMAContinuousRequests = DISABLE;
-  hadc2.Init.Overrun = ADC_OVR_DATA_PRESERVED;
-  hadc2.Init.OversamplingMode = DISABLE;
-  if (HAL_ADC_Init(&hadc2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  /** Configure Regular Channel
-  */
-  sConfig.Channel = ADC_CHANNEL_6;
-  sConfig.Rank = ADC_REGULAR_RANK_1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_12CYCLES_5;
-  sConfig.SingleDiff = ADC_SINGLE_ENDED;
-  sConfig.OffsetNumber = ADC_OFFSET_NONE;
-  sConfig.Offset = 0;
-  if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN ADC2_Init 2 */
-
-  /* USER CODE END ADC2_Init 2 */
-
 }
 
 /**
@@ -419,10 +442,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOC_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LD1_Pin|SYSTEM_LED_Pin|LD2_Pin|LD3_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(SYSTEM_LED_GPIO_Port, SYSTEM_LED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(ROW_1_GPIO_Port, ROW_1_Pin, GPIO_PIN_SET);
@@ -430,21 +450,12 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, ROW_2_Pin|ROW_4_Pin|ROW_3_Pin, GPIO_PIN_SET);
 
-  /*Configure GPIO pins : LD1_Pin SYSTEM_LED_Pin LD2_Pin LD3_Pin
-                           ROW_1_Pin */
-  GPIO_InitStruct.Pin = LD1_Pin|SYSTEM_LED_Pin|LD2_Pin|LD3_Pin
-                          |ROW_1_Pin;
+  /*Configure GPIO pins : SYSTEM_LED_Pin ROW_1_Pin */
+  GPIO_InitStruct.Pin = SYSTEM_LED_Pin|ROW_1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : LD4_Pin ROW_2_Pin ROW_4_Pin ROW_3_Pin */
-  GPIO_InitStruct.Pin = LD4_Pin|ROW_2_Pin|ROW_4_Pin|ROW_3_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pin : COL_1_Pin */
   GPIO_InitStruct.Pin = COL_1_Pin;
@@ -463,6 +474,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : ROW_2_Pin ROW_4_Pin ROW_3_Pin */
+  GPIO_InitStruct.Pin = ROW_2_Pin|ROW_4_Pin|ROW_3_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
