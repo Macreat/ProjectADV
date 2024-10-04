@@ -24,11 +24,18 @@
 #include <stdio.h>
 #include <string.h>
 
+
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 
+
+#include "ring_buffer.h"
+#include"ssd1306.h"
+#include"ssd1306_fonts.h"
+#include <stdio.h>
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -51,8 +58,37 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 
+uint8_t data_usart2;
+uint8_t newline[] = "\r\n";
+
+
 char uart_buff[20];
 uint16_t raw_value_NTC, raw_value_LDR;
+
+
+#define BUFFER_CAPACITY 10
+uint8_t keyboard_buffer_memory[BUFFER_CAPACITY];
+ring_buffer_t keyboard_ring_buffer;
+uint8_t first_key_pressed = 0;
+uint8_t cursor_x_position = 10;
+uint8_t cursor_y_position = 30;
+uint8_t max_cursor_x_position = 80;
+
+#define MAX_DISPLAY_CHARS 20 // SIZE of chart and screen
+
+//buffer to store the key sequence
+static char display_buffer[MAX_DISPLAY_CHARS + 1]; // +1 for nule value
+static uint8_t buffer_index = 0;
+
+// variables for actual cursor position on screen
+static uint8_t cursor_x = 10;
+static uint8_t cursor_y = 30;
+// adding variables for LED control
+#define SYSTEM_LED_GPIO_Port GPIOA
+#define SYSTEM_LED_Pin GPIO_PIN_5
+
+volatile uint8_t passwordCorrect = 0;
+
 
 
 
@@ -72,6 +108,165 @@ static void MX_I2C1_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+
+
+/*
+ * Function to redirect printf output to UART.
+ *
+ * Purpose:
+ * This function overrides the standard `_write` function to allow the
+ * usage of `printf` in embedded systems without a standard output. It
+ * redirects the printf output to UART for debugging or serial communication.
+ *
+ * Parameters:
+ * - file: Not used, required by the function signature.
+ * - ptr: Pointer to the data to be transmitted.
+ * - len: Length of the data to be transmitted.
+ *
+ * Functionality:
+ * - It sends the data pointed to by `ptr` via UART using HAL_UART_Transmit.
+ * - It returns the length of the data transmitted.
+ *
+ * Use case:
+ * By using this function, any call to `printf` will output the message
+ * to the UART interface, which can be monitored with a serial console.
+ */
+
+int _write(int file, char *ptr, int len)
+{
+  // to using printf
+  HAL_UART_Transmit(&huart2, (uint8_t *)ptr, len, 10);
+  return len;
+}
+
+/*
+ * Function to handle external interrupt callbacks for GPIO pins (keypad input).
+ *
+ * Purpose:
+ * This function is called when a GPIO interrupt occurs. It scans the keypad for the pressed key,
+ * handles special cases ('*' to reset the sequence, '#' to validate the password), and updates
+ * the OLED display and UART based on the input.
+ *
+ * Parameters:
+ * - GPIO_Pin: The pin number where the interrupt was triggered.
+ *
+ * Functionality:
+ * - Detects the key pressed on the keypad.
+ * - If '*' is pressed, the input sequence is reset.
+ * - If a valid key is pressed, it is added to the ring buffer and displayed on the OLED.
+ * - If '#' is pressed, the entered sequence is validated against a predefined correct sequence.
+ * - The result of the validation (correct or incorrect) is displayed on the OLED and transmitted via UART.
+ * - The buffer is reset after validation.
+ */
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+	uint8_t key_pressed = keypad_scan(GPIO_Pin);
+
+	    if (key_pressed != 0xFF) {
+	        // when '*' is pressed, the sequence is RESET
+	        if (key_pressed == '*') {
+	            ring_buffer_reset(&keyboard_ring_buffer);
+	            memset(display_buffer, 0, sizeof(display_buffer)); //clean actual buffer on the screen
+	            buffer_index = 0; // reset index on buffer
+
+	            ssd1306_Fill(Black);
+	            ssd1306_SetCursor(10, 20);
+	            ssd1306_WriteString("sequence restarted", Font_6x8, White);
+	            ssd1306_UpdateScreen();
+	            HAL_UART_Transmit(&huart2, (uint8_t*)"Sequence restarted\n\r", 22, 10);
+	            return;
+	        }
+
+	        // Write the key to the ring buffer
+	        if (key_pressed != '#') {
+	            ring_buffer_write(&keyboard_ring_buffer, key_pressed);
+
+	            // add chart to the buffer
+	            if (buffer_index < MAX_DISPLAY_CHARS) {
+	                display_buffer[buffer_index++] = key_pressed;
+	                display_buffer[buffer_index] = '\0'; // Null-terminar el buffer
+
+	                // clean screen and show buffer content on screen
+	                ssd1306_Fill(Black);
+	                ssd1306_SetCursor(10, 30);
+	                ssd1306_WriteString(display_buffer, Font_6x8, White);
+	                ssd1306_UpdateScreen();
+
+	                // send chart via UART
+	                HAL_UART_Transmit(&huart2, &key_pressed, 1, 10);
+	            }
+	            return;
+	        }
+
+
+
+	        // proccoed when  '#' is pressed , we verify the password entered
+
+
+
+	        uint8_t byte2 = 0;
+	        uint8_t id_incorrect2 = 0;
+	        uint8_t my_id2[] = "123";  // correct sequence
+
+	        // Read from buffer and compare with correct key
+	        for (uint8_t idx2 = 0; idx2 < sizeof(my_id2) - 1; idx2++) {
+	            if (ring_buffer_read(&keyboard_ring_buffer, &byte2) != 0) {
+	                if (byte2 != my_id2[idx2]) {
+	                    id_incorrect2 = 1;  // Mark as incorrect if no match
+
+
+	                    break;
+	                }
+	            } else {
+	                id_incorrect2 = 1;  // if there is no space in buffer
+	                break;
+	            }
+	        }
+
+	        HAL_UART_Transmit(&huart2, (uint8_t*)"\n", 1, 10);
+
+	        if (!id_incorrect2) {
+	            // success
+	            ssd1306_Fill(Black);
+	            ssd1306_SetCursor(10, 20);
+	            ssd1306_WriteString("correct sequence\n\r", Font_6x8, White);
+	            ssd1306_UpdateScreen();
+	            HAL_UART_Transmit(&huart2, (uint8_t*)"correct sequence\n\r", 21, 10);
+	            HAL_UART_Transmit(&huart2, (uint8_t*)"starting...\n\r", 14, 10);
+	            passwordCorrect = 1 ;
+	            return;
+
+
+
+	        } else {
+	            //  error
+	            ssd1306_Fill(Black);
+	            ssd1306_SetCursor(10, 20);
+	            ssd1306_WriteString("error. Try again ", Font_6x8, White);
+	            ssd1306_UpdateScreen();
+	            HAL_UART_Transmit(&huart2, (uint8_t*)" incorrect sequence. Try again  \n\r", 12, 10);
+
+	        }
+
+	        // reset buffer after validation
+	        ring_buffer_reset(&keyboard_ring_buffer);
+	        memset(display_buffer, 0, sizeof(display_buffer)); // clean buffer on screen
+	        buffer_index = 0; // reset index buffer
+	        cursor_x = 10;  //Resets the horizontal cursor position
+	        cursor_y = 30;  // Restarts the vertical position of the course
+
+	    }
+}
+
+
+
+
+
+
+
+
 
 /* USER CODE END 0 */
 
@@ -112,58 +307,119 @@ int main(void)
   MX_ADC2_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-
+  ring_buffer_init(&keyboard_ring_buffer, keyboard_buffer_memory, BUFFER_CAPACITY);
+  ssd1306_Init();
+  ssd1306_Fill(Black);
+  ssd1306_SetCursor(10,20);
+  ssd1306_WriteString("Starting...\r\n",Font_6x8,White);
+  ssd1306_UpdateScreen();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  printf("Starting...\r\n");
+
   while (1)
   {
 
+	  if(passwordCorrect)
+	  	  {
+	  		  for (int i = 0 ; i < 1; i ++){
+	  			 printf("correct password. Welcome to our quality air system \r\n");
+	  			 passwordCorrect =0  ;
+	  		  }
 
-	   HAL_ADC_Start(&hadc1);
-	   HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
-	   raw_value_LDR  = HAL_ADC_GetValue(&hadc1);
-	   sprintf (uart_buff, "Light : %hu \r\n", raw_value_LDR);
-	   HAL_UART_Transmit(&huart2, (uint8_t*)uart_buff, strlen(uart_buff), HAL_MAX_DELAY);
+	  		  while(1)
+	  		  {
+	  			 // adding logic to implement heartbeat
+	  			    static uint32_t last_heartbeat_time = 0;
+	  			    if (HAL_GetTick() - last_heartbeat_time >= 500) // toggling for 1Hz (500ms on / 500ms off)
+	  			    {
+	  			      HAL_GPIO_TogglePin(GPIOA, SYSTEM_LED_Pin);
+	  			      last_heartbeat_time = HAL_GetTick();
+	  			      // HAL_UART_Transmit(&huart2, HB, sizeof(HB) - 1, 100);
+	  			    }
 
-	   HAL_ADC_Start(&hadc2);
-	   HAL_ADC_PollForConversion(&hadc2, HAL_MAX_DELAY);
-	   raw_value_NTC  = HAL_ADC_GetValue(&hadc2);
-	   sprintf (uart_buff, "NTC : %hu \r\n", raw_value_NTC);
-	   HAL_UART_Transmit(&huart2, (uint8_t*)uart_buff, strlen(uart_buff), HAL_MAX_DELAY);
+	  			    // starting system
+	  			  HAL_ADC_Start(&hadc1);
+	  			  		  HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+	  			  		  raw_value_LDR  = HAL_ADC_GetValue(&hadc1);
+	  			  		  //SEND VIA UART
+	  			  		  sprintf (uart_buff, "Light : %hu \r\n", raw_value_LDR);
+	  			  		  HAL_UART_Transmit(&huart2, (uint8_t*)uart_buff, strlen(uart_buff), HAL_MAX_DELAY);
+	  			  		  //send via I2C
+	  			  		 ssd1306_SetCursor(20, 40);
+						  char buffer[2] = {raw_value_LDR, '\0'};
+						  ssd1306_WriteString(buffer, Font_11x18, White);
+						  ssd1306_UpdateScreen();
 
-	   HAL_Delay(1000);
 
-	   //conditional for LDR incidence
-	   if ( raw_value_LDR > 3000  || HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) == GPIO_PIN_RESET){
-	   		   HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin , 1 );
+	  			  		  HAL_ADC_Start(&hadc2);
+	  			  		  HAL_ADC_PollForConversion(&hadc2, HAL_MAX_DELAY);
+	  			  		  raw_value_NTC  = HAL_ADC_GetValue(&hadc2);
+	  			  		  sprintf (uart_buff, "NTC : %hu \r\n", raw_value_NTC);
+	  			  		  HAL_UART_Transmit(&huart2, (uint8_t*)uart_buff, strlen(uart_buff), HAL_MAX_DELAY);
+	  			  		  //send by I2C
+	  			  		  ssd1306_SetCursor(20, 40);
+						  char buffer1[2] = {raw_value_NTC, '\0'};
+						  ssd1306_WriteString(buffer1, Font_11x18, White);
+						  ssd1306_UpdateScreen();
 
-	   	   }else{
-	   		   HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin , 0 );
+	  			  		  HAL_Delay(1000);
 
-	   	   }
+	  			  		 	   //conditional for LDR incidence
+	  			  		  if ( raw_value_LDR > 3000 ||  HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13)== 0 ){
+	  			  			  	  HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin , 1 );
+	  			  			  	  ssd1306_Fill(Black);
+	  			  			  	  ssd1306_SetCursor(10, 20);
+	  			  			  	  ssd1306_WriteString("optimal light detected", Font_6x8, White);
+	  			  			  	  ssd1306_UpdateScreen();
+	  			  			  	  HAL_UART_Transmit(&huart2, (uint8_t*)" optimal light detected \n\r", 12, 10);
 
-	   // conditional for NTC incidence
+	  			  		  }else{
+	  			  			  	  HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin , 0 );
 
-		  if (raw_value_NTC <= 800) {
-			  // Activa el LED1
-			  HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET);
-			  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET); // Asegura que el LED2 esté apagado
-			  HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Asegura que el LED3 esté apagado
-		  }
-		  else if (raw_value_NTC > 1700 && raw_value_NTC <= 2700) {
-			  // Activa el LED2
-			  HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET); // Asegura que el LED1 esté apagado
-			  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
-			  HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Asegura que el LED3 esté apagado
-		  }
-		  else if (raw_value_NTC > 2700) {
-			  // Activa el LED3
-			  HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET); // Asegura que el LED1 esté apagado
-			  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET); // Asegura que el LED2 esté apagado
-			  HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_SET);
-		  }
+	  			  		  }
+
+	  			  		 	   // conditional for NTC incidence
+
+	  			  		 if (raw_value_NTC <= 1700) {
+	  						  // LD1 control
+	  						  HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, 1);
+	  						  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, 0);
+	  						  HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, 0);
+	  						  ssd1306_Fill(Black);
+							  ssd1306_SetCursor(10, 20);
+							  ssd1306_WriteString("Safe temperature", Font_6x8, White);
+							  ssd1306_UpdateScreen();
+							  HAL_UART_Transmit(&huart2, (uint8_t*)" Safe temperature threshold \n\r", 12, 10);
+	  					  }
+	  					  else if (raw_value_NTC > 1700 && raw_value_NTC <= 3300) {
+	  						  // turn on LD2
+	  						  HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, 1);
+	  						  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, 1);
+	  						  HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, 0);
+	  						  ssd1306_Fill(Black);
+							  ssd1306_SetCursor(10, 20);
+							  ssd1306_WriteString("Higher temperature ", Font_6x8, White);
+							  ssd1306_UpdateScreen();
+							  HAL_UART_Transmit(&huart2, (uint8_t*)" Higher than average temperature threshold \n\r", 12, 10);
+}
+	  					  else if (raw_value_NTC > 2700) {
+	  						  // Activa el LED3
+	  						  HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, 1);
+	  						  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, 1);
+	  						  HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, 1);
+	  						  ssd1306_Fill(Black);
+							  ssd1306_SetCursor(10, 20);
+							  ssd1306_WriteString("H HIGH tempt detected.", Font_6x8, White);
+							  ssd1306_UpdateScreen();
+							  HAL_UART_Transmit(&huart2, (uint8_t*)" Take care.High tempt detected. \n\r", 12, 10);
+	  					  }
+	  		  	  }
+
+
+	  	  }
 
     /* USER CODE END WHILE */
 
