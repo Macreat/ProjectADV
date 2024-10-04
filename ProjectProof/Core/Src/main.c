@@ -89,6 +89,14 @@ static uint8_t cursor_y = 30;
 
 volatile uint8_t passwordCorrect = 0;
 
+// declaring data receivde frfom uart :
+#define USART2_RB_LEN 1
+uint8_t usart2_data = 0xFF;
+uint8_t usart2_buffer[USART2_RB_LEN];
+ring_buffer_t usart2_rb;
+uint32_t usart_input_value = 0;
+
+
 
 
 
@@ -139,6 +147,69 @@ int _write(int file, char *ptr, int len)
   HAL_UART_Transmit(&huart2, (uint8_t *)ptr, len, 10);
   return len;
 }
+
+//* USART2 Callback ------------------------------------------------------------*/
+/* UART Callback: Receives data and processes it */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+    if (huart->Instance == USART2) {
+        // Store digits received from USART2 into the ring buffer
+        if (usart2_data >= '0' && usart2_data <= '9') {
+            ring_buffer_write(&usart2_rb, usart2_data);
+        }
+
+        // Check if the buffer has 6 digits and process the input
+        if (ring_buffer_size(&usart2_rb) >= 6) {
+            char usart_str[7];
+            for (int i = 0; i < 6; i++) {
+                ring_buffer_read(&usart2_rb, (uint8_t *)&usart_str[i]);
+            }
+            //usart_str[6] = '\0';
+            usart_input_value = strtol(usart_str, NULL, 10);
+            printf("USART Input: %lu\r\n", usart_input_value);
+
+            // Display value on OLED
+            ssd1306_Fill(Black);
+            ssd1306_SetCursor(10, 30);
+            char usart_oled_str[20];
+            sprintf(usart_oled_str, "USART: %lu", usart_input_value);
+            ssd1306_WriteString(usart_oled_str, Font_6x8, White);
+            ssd1306_UpdateScreen();
+
+        }
+        if (usart_input_value == "123"){
+        	passwordCorrect = 1 ;
+        }
+
+        HAL_UART_Receive_IT(&huart2, &usart2_data, 1);
+    }
+}
+/*
+ *
+
+ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+  /* Data received in USART2
+  if (huart->Instance == USART2) {
+	  usart2_rx = USART2->RDR; // leyendo el byte recibido de USART2
+	  ring_buffer_write(&usart2_rb, usart2_rx);
+	  }
+  if (huart->Instance == USART3) {
+	  usart3_rx = USART3->RDR; // leyendo el byte recibido de USART2
+	  ring_buffer_write(&usart3_rb, usart3_rx);
+	  }
+
+	  // put the data received in buffer
+	  HAL_UART_Receive_IT(&huart2, &usart2_rx, 1); // enable interrupt to continue receiving
+	  ATOMIC_SET_BIT(USART2->CR1, USART_CR1_RXNEIE); // usando un funcion mas liviana para reducir memoria
+  }
+
+
+ */
+
+
+
+
 
 /*
  * Function to handle external interrupt callbacks for GPIO pins (keypad input).
@@ -313,6 +384,12 @@ int main(void)
   ssd1306_SetCursor(10,20);
   ssd1306_WriteString("Starting...\r\n",Font_6x8,White);
   ssd1306_UpdateScreen();
+
+
+
+  HAL_UART_Receive_IT(&huart2, &usart2_data, 1);
+  ring_buffer_init(&usart2_rb, usart2_buffer, USART2_RB_LEN);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -326,6 +403,10 @@ int main(void)
 	  	  {
 	  		  for (int i = 0 ; i < 1; i ++){
 	  			 printf("correct password. Welcome to our quality air system \r\n");
+	  			 ssd1306_Fill(Black);
+				  ssd1306_SetCursor(10, 20);
+				  ssd1306_WriteString("Welcome to our quality air system ", Font_6x8, White);
+				  ssd1306_UpdateScreen();
 	  			 passwordCorrect =0  ;
 	  		  }
 
@@ -341,37 +422,46 @@ int main(void)
 	  			    }
 
 	  			    // starting system
-	  			  HAL_ADC_Start(&hadc1);
-	  			  		  HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
-	  			  		  raw_value_LDR  = HAL_ADC_GetValue(&hadc1);
-	  			  		  //SEND VIA UART
-	  			  		  sprintf (uart_buff, "Light : %hu \r\n", raw_value_LDR);
-	  			  		  HAL_UART_Transmit(&huart2, (uint8_t*)uart_buff, strlen(uart_buff), HAL_MAX_DELAY);
-	  			  		  //send via I2C
-	  			  		 ssd1306_SetCursor(20, 40);
-						  char buffer[2] = {raw_value_LDR, '\0'};
-						  ssd1306_WriteString(buffer, Font_11x18, White);
-						  ssd1306_UpdateScreen();
+
+				  // LDR read and display on OLED
+				  HAL_ADC_Start(&hadc1);
+				  HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+				  raw_value_LDR = HAL_ADC_GetValue(&hadc1);
+
+				  // Convert LDR value to string and display it
+				  char buffer_LDR[10]; // Buffer to hold the LDR value as a string
+				  sprintf(buffer_LDR, "%4hu", raw_value_LDR); // Convert to 4-digit unsigned short
+				  ssd1306_SetCursor(50, 1);  // Set cursor to top-right of the OLED
+				  ssd1306_WriteString(buffer_LDR, Font_6x8, White); // Write LDR value
+				  ssd1306_UpdateScreen();
+
+				  // Send LDR value over UART
+				  sprintf(uart_buff, "LDR : %hu \r\n", raw_value_LDR);
+				  HAL_UART_Transmit(&huart2, (uint8_t*)uart_buff, strlen(uart_buff), HAL_MAX_DELAY);
 
 
-	  			  		  HAL_ADC_Start(&hadc2);
-	  			  		  HAL_ADC_PollForConversion(&hadc2, HAL_MAX_DELAY);
-	  			  		  raw_value_NTC  = HAL_ADC_GetValue(&hadc2);
-	  			  		  sprintf (uart_buff, "NTC : %hu \r\n", raw_value_NTC);
-	  			  		  HAL_UART_Transmit(&huart2, (uint8_t*)uart_buff, strlen(uart_buff), HAL_MAX_DELAY);
-	  			  		  //send by I2C
-	  			  		  ssd1306_SetCursor(20, 40);
-						  char buffer1[2] = {raw_value_NTC, '\0'};
-						  ssd1306_WriteString(buffer1, Font_11x18, White);
-						  ssd1306_UpdateScreen();
 
-	  			  		  HAL_Delay(1000);
+					// NTC read and display on OLED
+					HAL_ADC_Start(&hadc2);
+					HAL_ADC_PollForConversion(&hadc2, HAL_MAX_DELAY);
+					raw_value_NTC = HAL_ADC_GetValue(&hadc2);
+
+					// Convert NTC value to string and display it
+					char buffer_NTC[10]; // Buffer to hold the NTC value as a string
+					sprintf(buffer_NTC, "%4hu", raw_value_NTC); // Convert to 4-digit unsigned short
+					ssd1306_SetCursor(80,1);  // Adjust the cursor position slightly below LDR
+					ssd1306_WriteString(buffer_NTC, Font_6x8, White); // Write NTC value
+					ssd1306_UpdateScreen();
+
+					// Send NTC value over UART
+					sprintf(uart_buff, "NTC : %hu \r\n", raw_value_NTC);
+					HAL_UART_Transmit(&huart2, (uint8_t*)uart_buff, strlen(uart_buff), HAL_MAX_DELAY);
+					HAL_Delay(1000);
 
 	  			  		 	   //conditional for LDR incidence
 	  			  		  if ( raw_value_LDR > 3000 ||  HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13)== 0 ){
 	  			  			  	  HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin , 1 );
-	  			  			  	  ssd1306_Fill(Black);
-	  			  			  	  ssd1306_SetCursor(10, 20);
+	  			  			  	  ssd1306_SetCursor(80, 50);
 	  			  			  	  ssd1306_WriteString("optimal light detected", Font_6x8, White);
 	  			  			  	  ssd1306_UpdateScreen();
 	  			  			  	  HAL_UART_Transmit(&huart2, (uint8_t*)" optimal light detected \n\r", 12, 10);

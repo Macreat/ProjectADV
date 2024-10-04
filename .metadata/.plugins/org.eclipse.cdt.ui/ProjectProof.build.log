@@ -1,9 +1,18 @@
-16:01:57 **** Incremental Build of configuration Debug for project ProjectProof ****
+16:45:50 **** Incremental Build of configuration Debug for project ProjectProof ****
 make -j8 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'HAL_UART_RxCpltCallback':
+../Core/Src/main.c:168:33: warning: implicit declaration of function 'strtol'; did you mean 'strtok'? [-Wimplicit-function-declaration]
+  168 |             usart_input_value = strtol(usart_str, NULL, 10);
+      |                                 ^~~~~~
+      |                                 strtok
+../Core/Src/main.c:181:31: warning: comparison between pointer and integer
+  181 |         if (usart_input_value == "123"){
+      |                               ^~
+../Core/Src/main.c:181:31: warning: comparison with string literal results in unspecified behavior [-Waddress]
 ../Core/Src/main.c: In function 'HAL_GPIO_EXTI_Callback':
-../Core/Src/main.c:165:31: warning: implicit declaration of function 'keypad_scan' [-Wimplicit-function-declaration]
-  165 |         uint8_t key_pressed = keypad_scan(GPIO_Pin);
+../Core/Src/main.c:211:31: warning: implicit declaration of function 'keypad_scan' [-Wimplicit-function-declaration]
+  211 |         uint8_t key_pressed = keypad_scan(GPIO_Pin);
       |                               ^~~~~~~~~~~
 arm-none-eabi-gcc -o "ProjectProof.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectProof\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectProof.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: ProjectProof.elf
@@ -11,11 +20,11 @@ Finished building target: ProjectProof.elf
 arm-none-eabi-size  ProjectProof.elf 
 arm-none-eabi-objdump -h -S ProjectProof.elf  > "ProjectProof.list"
    text	   data	    bss	    dec	    hex	filename
-  38632	    124	   3436	  42192	   a4d0	ProjectProof.elf
+  38312	    128	   3456	  41896	   a3a8	ProjectProof.elf
 Finished building: default.size.stdout
  
 Finished building: ProjectProof.list
  
 
-16:02:15 Build Finished. 0 errors, 1 warnings. (took 17s.619ms)
+16:46:06 Build Finished. 0 errors, 4 warnings. (took 16s.71ms)
 

@@ -1,77 +1,65 @@
-1. General Project Objective:
- system will monitor and control temperature and light levels in a closed environment using an NTC thermistor and an LDR (light-dependent resistor). The ESP01 module will allow remote monitoring and control through the internet. The OLED SSD1306 will display real-time system information, such as temperature, light levels, and the status of the system.
+Air and Environmental Quality Control System Project
+This project implements a complete system to monitor and control air quality in a closed environment. The system uses temperature (NTC) and light (LDR) sensors to track environmental parameters, which are displayed on an OLED screen and transmitted via UART for remote monitoring. The project also integrates a matrix keyboard for authentication, as well as LEDs and an actuator control system to indicate states and execute actions according to the sensor levels.
 
-2. Revised Functional Requirements:
-A. Sensor Monitoring (NTC and LDR):
-NTC Thermistor for Temperature:
+Main Features
+Input Sensors:
 
-Use an NTC sensor to measure the ambient temperature.
-Display temperature on the OLED screen.
-Send the temperature reading to the remote system using the ESP01 for remote monitoring.
-LDR for Light Sensing:
+LDR (Photoresistor): To measure the intensity of ambient light.
+NTC (Thermistor): To measure the temperature of the environment.
+Visual Indicators:
 
-The LDR will measure the light intensity in the room.
-Display the light levels on the OLED screen and send this data via the ESP01.
-B. Actuator Control:
-Fan Control Based on Temperature:
-If the temperature exceeds a certain threshold, the fan will automatically turn on.
-The fan will turn off when the temperature drops below the set threshold.
-Lights Control Based on Light Intensity:
-When the light level is below a certain threshold, turn on additional lights (if applicable) or take action such as closing a mechanical grid.
-C. Remote Monitoring & Control (ESP01):
-Wi-Fi Connectivity with ESP01:
+OLED screen: Shows sensor values ​​and status messages in real time.
+LEDs (LD1, LD2, LD3, LD4): Visual indicators according to different temperature and light thresholds.
+Actuator Control:
 
-Implement a network communication system using the ESP01 module. This will allow remote access via the internet.
-Through this remote system, users can view sensor data (temperature and light intensity) and manually control the fan and light system.
-Command via Web Interface:
+Ventilation motor: Activated or deactivated depending on the temperature threshold.
+Light control system: Light intensity control using the LDR sensor.
+Matrix Keyboard Authentication: The system requires a valid password to unlock the main functionality, providing a basic level of security.
 
-Create a simple interface for sending commands to the STM32 (like turning on/off the fan or lights).
-The system will react within 1 second to commands sent remotely.
-D. OLED SSD1306 Display:
-Real-time Monitoring Display:
-Display the current temperature and light levels on the OLED.
-Display the status of the fan (on/off), light control system, and connection to the internet.
-3. Revised Non-Functional Requirements:
-Response Time:
+Communication:
 
-The system should react to remote commands (via ESP01) within 1 second.
-Modular Code Design:
+UART: Sensor data is periodically sent via UART for remote monitoring.
+Hardware Requirements
+Microcontroller: STM32 Nucleo-L476RG.
+OLED screen: SSD1306.
+Sensors: LDR and NTC.
+LEDs and motors for indication and control.
+Matrix keyboard for authentication.
+UART for serial communication.
+Functional Implementation
 
-The code should be modular with separate libraries for the NTC temperature sensor, LDR, OLED display, ESP01, and control logic.
-This will make it easier to maintain and modify.
-Security:
+1. Sensors and Monitoring
+   The system continuously reads the values ​​from the temperature (NTC) and light (LDR) sensors. Depending on the values ​​obtained, different responses are generated, such as the activation of LEDs or the sending of alerts via UART.
 
-Implement a basic authentication system for remote access, like a simple password check over the ESP01 network interface, to prevent unauthorized control.
-4. Implementation Overview:
-A. Temperature & Light Sensors:
-NTC Thermistor Setup:
+LDR: If the light is too low or high, the system can activate actuators to regulate the environment.
 
-Configure an ADC channel to read the voltage from the NTC sensor.
-Use a voltage divider circuit with the NTC and a resistor to measure temperature.
-Implement the Steinhart-Hart equation or a simplified version to convert resistance to temperature in Celsius.
-LDR Setup:
+NTC: Three temperature levels are implemented:
 
-Configure a second ADC channel to read the voltage from the LDR.
-Use a voltage divider to measure the light intensity, with adjustments to map the analog reading to light levels.
-B. OLED SSD1306 Display:
-Use the SSD1306 driver to display real-time values:
-Line 1: Temperature
-Line 2: Light Intensity
-Line 3: Fan Status
-Line 4: ESP01 Connection Status
-C. Fan and Light Control:
-Temperature-based Fan Control Logic:
+< 1700: Safe temperature.
+1700 - 3300: Moderate temperature, an additional LED lights up.
 
-If temperature > threshold, turn on the fan. If temperature < threshold, turn it off.
-Light-based Control Logic:
+> 3300: High temperature, all LEDs activate and a critical warning is sent. 2. Authentication
+> The system requires the user to enter a password before unlocking access to control and monitoring sensors. A matrix keyboard is used for password entry. If the password is incorrect, an error message is displayed and you must try again.
 
-If light intensity < threshold, trigger an action (e.g., adjust mechanical grid or notify via the ESP01).
-D. ESP01 Network Interface:
-Connect ESP01:
-Use UART to communicate with the ESP01 module. Implement commands for:
-Querying the current temperature and light levels.
-Manually toggling the fan or other control systems.
-Remote Commands:
-Configure ESP01 to receive commands from a web interface and control the STM32 system accordingly.
-Real-time Data:
-Periodically send the sensor data (temperature and light) to the web interface for monitoring.
+3. OLED screen
+   The OLED display is used to display current sensor values ​​and status messages. The LDR and NTC values ​​are continuously updated on the screen in real time.
+
+4. UART communication
+   Sensor data is continuously transmitted via the UART port so it can be monitored remotely or recorded by another device.
+
+Extended Functionality
+Security
+This system is highly applicable for security applications, such as fire detection or room or warehouse monitoring. Temperature thresholds can serve as early warnings in the event of hazardous conditions.
+
+Environmental control
+The system can be used in greenhouses or other environments where precise control of temperature and light is required. By implementing additional motors and actuators, ventilation and lighting can be controlled automatically.
+
+Crop Automation
+The project can be expanded to use more sensors, such as soil moisture, for automated agricultural control. Depending on the sensor values, irrigation and other environmental maintenance systems can be automatically controlled.
+
+Future Modifications and Improvements
+Control via Wi-Fi: Integrate an ESP8266 module to add remote system monitoring and control capability through an application or web server.
+Improve fan control: Add PWM control to the fan to allow speed adjustments based on sensor values.
+Remote Database: The collected data could be stored in a remote database for long-term analysis.
+Moisture Control: Add a soil moisture sensor and water pump to automate irrigation in agricultural applications.
+Expand the security system: Include more sensors for gas or motion detection, making the system more robust for security applications.
