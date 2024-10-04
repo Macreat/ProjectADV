@@ -1158,29 +1158,30 @@ int main(void)
  8000a10:	ddf3      	ble.n	80009fa <main+0x5e>
 		  }
 
-
-		  HAL_ADC_Start(&hadc1);
+		  while(1)
+		  {
+			  HAL_ADC_Start(&hadc1);
  8000a12:	485b      	ldr	r0, [pc, #364]	@ (8000b80 <main+0x1e4>)
  8000a14:	f000 fdfa 	bl	800160c <HAL_ADC_Start>
-		 	   HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+			  		  HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
  8000a18:	f04f 31ff 	mov.w	r1, #4294967295
  8000a1c:	4858      	ldr	r0, [pc, #352]	@ (8000b80 <main+0x1e4>)
  8000a1e:	f000 feaf 	bl	8001780 <HAL_ADC_PollForConversion>
-		 	   raw_value_LDR  = HAL_ADC_GetValue(&hadc1);
+			  		  raw_value_LDR  = HAL_ADC_GetValue(&hadc1);
  8000a22:	4857      	ldr	r0, [pc, #348]	@ (8000b80 <main+0x1e4>)
  8000a24:	f000 ff84 	bl	8001930 <HAL_ADC_GetValue>
  8000a28:	4603      	mov	r3, r0
  8000a2a:	b29a      	uxth	r2, r3
  8000a2c:	4b55      	ldr	r3, [pc, #340]	@ (8000b84 <main+0x1e8>)
  8000a2e:	801a      	strh	r2, [r3, #0]
-		 	   sprintf (uart_buff, "Light : %hu \r\n", raw_value_LDR);
+			  		  sprintf (uart_buff, "Light : %hu \r\n", raw_value_LDR);
  8000a30:	4b54      	ldr	r3, [pc, #336]	@ (8000b84 <main+0x1e8>)
  8000a32:	881b      	ldrh	r3, [r3, #0]
  8000a34:	461a      	mov	r2, r3
  8000a36:	4954      	ldr	r1, [pc, #336]	@ (8000b88 <main+0x1ec>)
  8000a38:	4854      	ldr	r0, [pc, #336]	@ (8000b8c <main+0x1f0>)
  8000a3a:	f005 fa0f 	bl	8005e5c <siprintf>
-		 	   HAL_UART_Transmit(&huart2, (uint8_t*)uart_buff, strlen(uart_buff), HAL_MAX_DELAY);
+			  		  HAL_UART_Transmit(&huart2, (uint8_t*)uart_buff, strlen(uart_buff), HAL_MAX_DELAY);
  8000a3e:	4853      	ldr	r0, [pc, #332]	@ (8000b8c <main+0x1f0>)
  8000a40:	f7ff fbc6 	bl	80001d0 <strlen>
  8000a44:	4603      	mov	r3, r0
@@ -1190,28 +1191,28 @@ int main(void)
  8000a4e:	4850      	ldr	r0, [pc, #320]	@ (8000b90 <main+0x1f4>)
  8000a50:	f004 f950 	bl	8004cf4 <HAL_UART_Transmit>
 
-		 	   HAL_ADC_Start(&hadc2);
+			  		  HAL_ADC_Start(&hadc2);
  8000a54:	484f      	ldr	r0, [pc, #316]	@ (8000b94 <main+0x1f8>)
  8000a56:	f000 fdd9 	bl	800160c <HAL_ADC_Start>
-		 	   HAL_ADC_PollForConversion(&hadc2, HAL_MAX_DELAY);
+			  		  HAL_ADC_PollForConversion(&hadc2, HAL_MAX_DELAY);
  8000a5a:	f04f 31ff 	mov.w	r1, #4294967295
  8000a5e:	484d      	ldr	r0, [pc, #308]	@ (8000b94 <main+0x1f8>)
  8000a60:	f000 fe8e 	bl	8001780 <HAL_ADC_PollForConversion>
-		 	   raw_value_NTC  = HAL_ADC_GetValue(&hadc2);
+			  		  raw_value_NTC  = HAL_ADC_GetValue(&hadc2);
  8000a64:	484b      	ldr	r0, [pc, #300]	@ (8000b94 <main+0x1f8>)
  8000a66:	f000 ff63 	bl	8001930 <HAL_ADC_GetValue>
  8000a6a:	4603      	mov	r3, r0
  8000a6c:	b29a      	uxth	r2, r3
  8000a6e:	4b4a      	ldr	r3, [pc, #296]	@ (8000b98 <main+0x1fc>)
  8000a70:	801a      	strh	r2, [r3, #0]
-		 	   sprintf (uart_buff, "NTC : %hu \r\n", raw_value_NTC);
+			  		  sprintf (uart_buff, "NTC : %hu \r\n", raw_value_NTC);
  8000a72:	4b49      	ldr	r3, [pc, #292]	@ (8000b98 <main+0x1fc>)
  8000a74:	881b      	ldrh	r3, [r3, #0]
  8000a76:	461a      	mov	r2, r3
  8000a78:	4948      	ldr	r1, [pc, #288]	@ (8000b9c <main+0x200>)
  8000a7a:	4844      	ldr	r0, [pc, #272]	@ (8000b8c <main+0x1f0>)
  8000a7c:	f005 f9ee 	bl	8005e5c <siprintf>
-		 	   HAL_UART_Transmit(&huart2, (uint8_t*)uart_buff, strlen(uart_buff), HAL_MAX_DELAY);
+			  		  HAL_UART_Transmit(&huart2, (uint8_t*)uart_buff, strlen(uart_buff), HAL_MAX_DELAY);
  8000a80:	4842      	ldr	r0, [pc, #264]	@ (8000b8c <main+0x1f0>)
  8000a82:	f7ff fba5 	bl	80001d0 <strlen>
  8000a86:	4603      	mov	r3, r0
@@ -1221,60 +1222,60 @@ int main(void)
  8000a90:	483f      	ldr	r0, [pc, #252]	@ (8000b90 <main+0x1f4>)
  8000a92:	f004 f92f 	bl	8004cf4 <HAL_UART_Transmit>
 
-		 	   HAL_Delay(1000);
+			  		  HAL_Delay(1000);
  8000a96:	f44f 707a 	mov.w	r0, #1000	@ 0x3e8
  8000a9a:	f000 fd07 	bl	80014ac <HAL_Delay>
 
-		 	   //conditional for LDR incidence
-		 	   if ( raw_value_LDR > 3000){
+			  		 	   //conditional for LDR incidence
+			  		  if ( raw_value_LDR > 3000){
  8000a9e:	4b39      	ldr	r3, [pc, #228]	@ (8000b84 <main+0x1e8>)
  8000aa0:	881b      	ldrh	r3, [r3, #0]
  8000aa2:	f640 32b8 	movw	r2, #3000	@ 0xbb8
  8000aa6:	4293      	cmp	r3, r2
  8000aa8:	d905      	bls.n	8000ab6 <main+0x11a>
-		 	   		   HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin , 1 );
+			  			  HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin , 1 );
  8000aaa:	2201      	movs	r2, #1
  8000aac:	2101      	movs	r1, #1
  8000aae:	483c      	ldr	r0, [pc, #240]	@ (8000ba0 <main+0x204>)
  8000ab0:	f001 faf4 	bl	800209c <HAL_GPIO_WritePin>
  8000ab4:	e004      	b.n	8000ac0 <main+0x124>
 
-		 	   	   }else{
-		 	   		   HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin , 0 );
+			  		  }else{
+			  			  HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin , 0 );
  8000ab6:	2200      	movs	r2, #0
  8000ab8:	2101      	movs	r1, #1
  8000aba:	4839      	ldr	r0, [pc, #228]	@ (8000ba0 <main+0x204>)
  8000abc:	f001 faee 	bl	800209c <HAL_GPIO_WritePin>
 
-		 	   	   }
+			  		  }
 
-		 	   // conditional for NTC incidence
+			  		 	   // conditional for NTC incidence
 
-		 	   if (raw_value_NTC <= 1250) {
+			  		  if (raw_value_NTC <= 1250) {
  8000ac0:	4b35      	ldr	r3, [pc, #212]	@ (8000b98 <main+0x1fc>)
  8000ac2:	881b      	ldrh	r3, [r3, #0]
  8000ac4:	f240 42e2 	movw	r2, #1250	@ 0x4e2
  8000ac8:	4293      	cmp	r3, r2
  8000aca:	d812      	bhi.n	8000af2 <main+0x156>
-		 	       // Activa el LED1
-		 	       HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET);
+			  			  // Activa el LED1
+			  			  HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET);
  8000acc:	2201      	movs	r2, #1
  8000ace:	2110      	movs	r1, #16
  8000ad0:	f04f 4090 	mov.w	r0, #1207959552	@ 0x48000000
  8000ad4:	f001 fae2 	bl	800209c <HAL_GPIO_WritePin>
-		 	       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET); // Asegura que el LED2 esté apagado
+			  			  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET); // Asegura que el LED2 esté apagado
  8000ad8:	2200      	movs	r2, #0
  8000ada:	2140      	movs	r1, #64	@ 0x40
  8000adc:	f04f 4090 	mov.w	r0, #1207959552	@ 0x48000000
  8000ae0:	f001 fadc 	bl	800209c <HAL_GPIO_WritePin>
-		 	       HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Asegura que el LED3 esté apagado
+			  			  HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Asegura que el LED3 esté apagado
  8000ae4:	2200      	movs	r2, #0
  8000ae6:	2180      	movs	r1, #128	@ 0x80
  8000ae8:	f04f 4090 	mov.w	r0, #1207959552	@ 0x48000000
  8000aec:	f001 fad6 	bl	800209c <HAL_GPIO_WritePin>
- 8000af0:	e77b      	b.n	80009ea <main+0x4e>
-		 	   }
-		 	   else if (raw_value_NTC > 1250 && raw_value_NTC <= 2500) {
+ 8000af0:	e78f      	b.n	8000a12 <main+0x76>
+			  		  }
+			  		  else if (raw_value_NTC > 1250 && raw_value_NTC <= 2500) {
  8000af2:	4b29      	ldr	r3, [pc, #164]	@ (8000b98 <main+0x1fc>)
  8000af4:	881b      	ldrh	r3, [r3, #0]
  8000af6:	f240 42e2 	movw	r2, #1250	@ 0x4e2
@@ -1285,48 +1286,48 @@ int main(void)
  8000b02:	f640 12c4 	movw	r2, #2500	@ 0x9c4
  8000b06:	4293      	cmp	r3, r2
  8000b08:	d812      	bhi.n	8000b30 <main+0x194>
-		 	       // Activa el LED2
-		 	       HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET); // Asegura que el LED1 esté apagado
+			  			  // Activa el LED2
+			  			  HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET); // Asegura que el LED1 esté apagado
  8000b0a:	2201      	movs	r2, #1
  8000b0c:	2110      	movs	r1, #16
  8000b0e:	f04f 4090 	mov.w	r0, #1207959552	@ 0x48000000
  8000b12:	f001 fac3 	bl	800209c <HAL_GPIO_WritePin>
-		 	       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+			  			  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
  8000b16:	2201      	movs	r2, #1
  8000b18:	2140      	movs	r1, #64	@ 0x40
  8000b1a:	f04f 4090 	mov.w	r0, #1207959552	@ 0x48000000
  8000b1e:	f001 fabd 	bl	800209c <HAL_GPIO_WritePin>
-		 	       HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Asegura que el LED3 esté apagado
+			  			  HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Asegura que el LED3 esté apagado
  8000b22:	2200      	movs	r2, #0
  8000b24:	2180      	movs	r1, #128	@ 0x80
  8000b26:	f04f 4090 	mov.w	r0, #1207959552	@ 0x48000000
  8000b2a:	f001 fab7 	bl	800209c <HAL_GPIO_WritePin>
  8000b2e:	e018      	b.n	8000b62 <main+0x1c6>
-		 	   }
-		 	   else if (raw_value_NTC > 2500) {
+			  		  }
+			  		  else if (raw_value_NTC > 2500) {
  8000b30:	4b19      	ldr	r3, [pc, #100]	@ (8000b98 <main+0x1fc>)
  8000b32:	881b      	ldrh	r3, [r3, #0]
  8000b34:	f640 12c4 	movw	r2, #2500	@ 0x9c4
  8000b38:	4293      	cmp	r3, r2
- 8000b3a:	f67f af56 	bls.w	80009ea <main+0x4e>
-		 	       // Activa el LED3
-		 	       HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET); // Asegura que el LED1 esté apagado
+ 8000b3a:	f67f af6a 	bls.w	8000a12 <main+0x76>
+			  			  // Activa el LED3
+			  			  HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET); // Asegura que el LED1 esté apagado
  8000b3e:	2201      	movs	r2, #1
  8000b40:	2110      	movs	r1, #16
  8000b42:	f04f 4090 	mov.w	r0, #1207959552	@ 0x48000000
  8000b46:	f001 faa9 	bl	800209c <HAL_GPIO_WritePin>
-		 	       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET); // Asegura que el LED2 esté apagado
+			  			  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET); // Asegura que el LED2 esté apagado
  8000b4a:	2201      	movs	r2, #1
  8000b4c:	2140      	movs	r1, #64	@ 0x40
  8000b4e:	f04f 4090 	mov.w	r0, #1207959552	@ 0x48000000
  8000b52:	f001 faa3 	bl	800209c <HAL_GPIO_WritePin>
-		 	       HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_SET);
+			  			  HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_SET);
  8000b56:	2201      	movs	r2, #1
  8000b58:	2180      	movs	r1, #128	@ 0x80
  8000b5a:	f04f 4090 	mov.w	r0, #1207959552	@ 0x48000000
  8000b5e:	f001 fa9d 	bl	800209c <HAL_GPIO_WritePin>
-	  if(passwordCorrect)
- 8000b62:	e742      	b.n	80009ea <main+0x4e>
+			  HAL_ADC_Start(&hadc1);
+ 8000b62:	e756      	b.n	8000a12 <main+0x76>
  8000b64:	20000258 	.word	0x20000258
  8000b68:	20000264 	.word	0x20000264
  8000b6c:	0800738c 	.word	0x0800738c

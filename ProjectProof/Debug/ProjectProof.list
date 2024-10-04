@@ -556,17 +556,17 @@ int main(void)
  800064e:	4293      	cmp	r3, r2
  8000650:	d812      	bhi.n	8000678 <main+0x108>
 	       // Activa el LED1
-	       HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET);
+	       HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, 1);
  8000652:	2201      	movs	r2, #1
- 8000654:	2180      	movs	r1, #128	@ 0x80
+ 8000654:	2110      	movs	r1, #16
  8000656:	f04f 4090 	mov.w	r0, #1207959552	@ 0x48000000
  800065a:	f002 fcbd 	bl	8002fd8 <HAL_GPIO_WritePin>
-	       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET); // Asegura que el LED2 esté apagado
+	       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, 0); // Asegura que el LED2 esté apagado
  800065e:	2200      	movs	r2, #0
  8000660:	2120      	movs	r1, #32
  8000662:	f04f 4090 	mov.w	r0, #1207959552	@ 0x48000000
  8000666:	f002 fcb7 	bl	8002fd8 <HAL_GPIO_WritePin>
-	       HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Asegura que el LED3 esté apagado
+	       HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, 0); // Asegura que el LED3 esté apagado
  800066a:	2200      	movs	r2, #0
  800066c:	2140      	movs	r1, #64	@ 0x40
  800066e:	f04f 4090 	mov.w	r0, #1207959552	@ 0x48000000
@@ -585,17 +585,17 @@ int main(void)
  800068c:	4293      	cmp	r3, r2
  800068e:	d812      	bhi.n	80006b6 <main+0x146>
 	       // Activa el LED2
-	       HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET); // Asegura que el LED1 esté apagado
+	       HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, 1); // Asegura que el LED1 esté apagado
  8000690:	2201      	movs	r2, #1
- 8000692:	2180      	movs	r1, #128	@ 0x80
+ 8000692:	2110      	movs	r1, #16
  8000694:	f04f 4090 	mov.w	r0, #1207959552	@ 0x48000000
  8000698:	f002 fc9e 	bl	8002fd8 <HAL_GPIO_WritePin>
-	       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, 1);
  800069c:	2201      	movs	r2, #1
  800069e:	2120      	movs	r1, #32
  80006a0:	f04f 4090 	mov.w	r0, #1207959552	@ 0x48000000
  80006a4:	f002 fc98 	bl	8002fd8 <HAL_GPIO_WritePin>
-	       HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Asegura que el LED3 esté apagado
+	       HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, 0); // Asegura que el LED3 esté apagado
  80006a8:	2200      	movs	r2, #0
  80006aa:	2140      	movs	r1, #64	@ 0x40
  80006ac:	f04f 4090 	mov.w	r0, #1207959552	@ 0x48000000
@@ -609,17 +609,17 @@ int main(void)
  80006be:	4293      	cmp	r3, r2
  80006c0:	f67f af66 	bls.w	8000590 <main+0x20>
 	       // Activa el LED3
-	       HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET); // Asegura que el LED1 esté apagado
+	       HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, 1); // Asegura que el LED1 esté apagado
  80006c4:	2201      	movs	r2, #1
- 80006c6:	2180      	movs	r1, #128	@ 0x80
+ 80006c6:	2110      	movs	r1, #16
  80006c8:	f04f 4090 	mov.w	r0, #1207959552	@ 0x48000000
  80006cc:	f002 fc84 	bl	8002fd8 <HAL_GPIO_WritePin>
-	       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET); // Asegura que el LED2 esté apagado
+	       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, 1); // Asegura que el LED2 esté apagado
  80006d0:	2201      	movs	r2, #1
  80006d2:	2120      	movs	r1, #32
  80006d4:	f04f 4090 	mov.w	r0, #1207959552	@ 0x48000000
  80006d8:	f002 fc7e 	bl	8002fd8 <HAL_GPIO_WritePin>
-	       HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_SET);
+	       HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, 1);
  80006dc:	2201      	movs	r2, #1
  80006de:	2140      	movs	r1, #64	@ 0x40
  80006e0:	f04f 4090 	mov.w	r0, #1207959552	@ 0x48000000
@@ -1277,9 +1277,9 @@ static void MX_GPIO_Init(void)
  8000a90:	687b      	ldr	r3, [r7, #4]
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LD2_Pin|LD3_Pin|LD1_Pin|LD4_Pin
+  HAL_GPIO_WritePin(GPIOA, LD1_Pin|LD2_Pin|LD3_Pin|LD4_Pin
  8000a92:	2200      	movs	r2, #0
- 8000a94:	f44f 51ff 	mov.w	r1, #8160	@ 0x1fe0
+ 8000a94:	f641 7170 	movw	r1, #8048	@ 0x1f70
  8000a98:	f04f 4090 	mov.w	r0, #1207959552	@ 0x48000000
  8000a9c:	f002 fa9c 	bl	8002fd8 <HAL_GPIO_WritePin>
                           |LD5_Pin|FAN_Pin|MOTORX_Pin|MOTORY_Pin, GPIO_PIN_RESET);
@@ -1307,10 +1307,10 @@ static void MX_GPIO_Init(void)
  8000ac0:	4818      	ldr	r0, [pc, #96]	@ (8000b24 <MX_GPIO_Init+0x108>)
  8000ac2:	f002 f8df 	bl	8002c84 <HAL_GPIO_Init>
 
-  /*Configure GPIO pins : LD2_Pin LD3_Pin LD1_Pin LD4_Pin
+  /*Configure GPIO pins : LD1_Pin LD2_Pin LD3_Pin LD4_Pin
                            LD5_Pin FAN_Pin MOTORX_Pin MOTORY_Pin */
-  GPIO_InitStruct.Pin = LD2_Pin|LD3_Pin|LD1_Pin|LD4_Pin
- 8000ac6:	f44f 53ff 	mov.w	r3, #8160	@ 0x1fe0
+  GPIO_InitStruct.Pin = LD1_Pin|LD2_Pin|LD3_Pin|LD4_Pin
+ 8000ac6:	f641 7370 	movw	r3, #8048	@ 0x1f70
  8000aca:	617b      	str	r3, [r7, #20]
                           |LD5_Pin|FAN_Pin|MOTORX_Pin|MOTORY_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;

@@ -144,21 +144,21 @@ int main(void)
 
 	   if (raw_value_NTC <= 1250) {
 	       // Activa el LED1
-	       HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, 1);
-	       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, 0); // Asegura que el LED2 esté apagado
-	       HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, 0); // Asegura que el LED3 esté apagado
+	       HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET);
+	       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET); // Asegura que el LED2 esté apagado
+	       HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Asegura que el LED3 esté apagado
 	   }
 	   else if (raw_value_NTC > 1250 && raw_value_NTC <= 2500) {
 	       // Activa el LED2
-	       HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, 1); // Asegura que el LED1 esté apagado
-	       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, 1);
-	       HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, 0); // Asegura que el LED3 esté apagado
+	       HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET); // Asegura que el LED1 esté apagado
+	       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	       HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Asegura que el LED3 esté apagado
 	   }
 	   else if (raw_value_NTC > 2500) {
 	       // Activa el LED3
-	       HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, 1); // Asegura que el LED1 esté apagado
-	       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, 1); // Asegura que el LED2 esté apagado
-	       HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, 1);
+	       HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET); // Asegura que el LED1 esté apagado
+	       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET); // Asegura que el LED2 esté apagado
+	       HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_SET);
 	   }
 
     /* USER CODE END WHILE */

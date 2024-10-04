@@ -1646,3 +1646,5 @@ java.lang.NullPointerException: Cannot invoke "javax.swing.JTextField.getText()"
 2024-10-04 11:08:03,988 [INFO] CADModel:165 - CPN selected for project levelSTM32L476RGT3
 2024-10-04 11:08:03,988 [INFO] CADModel:114 - Register for checkConnection events
 2024-10-04 11:08:04,138 [INFO] OpenFileManager:363 - Restore cursor
+2024-10-04 12:16:37,450 [INFO] I2cTimingTraitement:330 - 0x10909CEC
+2024-10-04 12:16:39,921 [INFO] Gpio:277 - dependency for GPIO [ADC1, ADC2, I2C1, USART2]
