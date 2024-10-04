@@ -23,7 +23,6 @@
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
 #include <string.h>
-#include <stdbool.h>
 
 /* USER CODE END Includes */
 
@@ -50,36 +49,9 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 
-uint16_t lux = 0;
+char uart_buff[20];
+uint16_t raw_value_NTC, raw_value_LDR;
 
-uint16_t raw_value_LDR = 0;
-
-char msg[20];
-
-
-uint16_t raw_value;
-float temperature;
-float B = 3950;  // Constante B del material del NTC
-float R0 = 53000; // Resistencia del NTC a 25 grados Celsius
-float T0 = 298.15; // 25 grados Celsius en Kelvin
-#define V_IN 3.3   // Voltaje de referencia del sistema (3.3V)
-
-
-
-float RNTC; // Resistencia calculada del NTC
-float T_kelvin; // Temperatura en Kelvin
-float R_div = 2000; // 2kΩ
-
-
-float T_low = 25;      // Temperatura baja en grados Celsius
-float T_high = 100;    // Temperatura alta en grados Celsius
-float R_low = 45000;   // Resistencia a 25 grados Celsius (53kΩ)
-float R_high = 2500;   // Resistencia a 100 grados Celsius (2.5kΩ)
-
-uint32_t motor_start_time = 0;
-bool motor_active = false;
-bool motor_direction = true;  // true = sentido A, false = sentido B
-int threshold_LDR = 2500;     // Umbral del LDR, ajustable según sea necesario
 
 
 /* USER CODE END PV */
@@ -147,48 +119,46 @@ int main(void)
 
 	   HAL_ADC_Start(&hadc1);
 	   HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
-	   lux  = HAL_ADC_GetValue(&hadc1);
-	   sprintf (msg, "Light : %hu \r\n", lux);
-	   HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+	   raw_value_LDR  = HAL_ADC_GetValue(&hadc1);
+	   sprintf (uart_buff, "Light : %hu \r\n", raw_value_LDR);
+	   HAL_UART_Transmit(&huart2, (uint8_t*)uart_buff, strlen(uart_buff), HAL_MAX_DELAY);
 
 	   HAL_ADC_Start(&hadc2);
 	   HAL_ADC_PollForConversion(&hadc2, HAL_MAX_DELAY);
-	   raw_value_LDR  = HAL_ADC_GetValue(&hadc2);
-	   sprintf (msg, "NTC : %hu \r\n", raw_value_LDR);
-	   HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+	   raw_value_NTC  = HAL_ADC_GetValue(&hadc2);
+	   sprintf (uart_buff, "NTC : %hu \r\n", raw_value_NTC);
+	   HAL_UART_Transmit(&huart2, (uint8_t*)uart_buff, strlen(uart_buff), HAL_MAX_DELAY);
 
-	   HAL_Delay(1000);  // Esperar un segundo antes de la siguiente lectura
+	   HAL_Delay(1000);
 
-	   uint32_t motor_start_time = 0;
-	   bool motor_active = false;
-	   bool motor_direction = true;  // true = sentido A, false = sentido B
-	   int threshold_LDR = 2500;     // Umbral del LDR, ajustable según sea necesario
+	   //conditional for LDR incidence
+	   if ( raw_value_LDR > 3000){
+	   		   HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin , 1 );
 
-	   // Control del motor basado en el valor del LDR
-	   if (raw_value_LDR >= 1500 && !motor_active) {
-	       motor_start_time = HAL_GetTick();  // Guardar el tiempo de inicio
-	       motor_active = true;
-	       motor_direction = true;  // Motor en sentido A
-	       HAL_GPIO_WritePin(GPIOA, MOTORX_Pin, GPIO_PIN_SET);  // Activar motor en sentido A (MOTORX HIGH)
-	       HAL_GPIO_WritePin(GPIOA, MOTORY_Pin, GPIO_PIN_RESET);  // Desactivar sentido contrario (MOTORY LOW)
-	       HAL_GPIO_WritePin(GPIOA, LD3_Pin, GPIO_PIN_SET);  // Activar motor en sentido A (MOTORX HIGH)
-	   }  if (HAL_GetTick() - motor_start_time >= 3000 && motor_active) {
-	       HAL_GPIO_WritePin(GPIOA, MOTORX_Pin, GPIO_PIN_RESET);  // Parar motor (MOTORX LOW)
-	       HAL_GPIO_WritePin(GPIOA, MOTORY_Pin, GPIO_PIN_RESET);  // Asegurar que ambos pines estén en LOW
-	       motor_active = false;
+	   	   }else{
+	   		   HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin , 0 );
+
 	   	   }
 
-	   // Si baja la luz por debajo del umbral, cambiar el sentido del motor
-	   if (raw_value_LDR < 1000 && !motor_active) {
-	       motor_start_time = HAL_GetTick();  // Guardar el tiempo de inicio
-	       motor_active = true;
-	       motor_direction = false;  // Cambiar sentido del motor a B
-	       HAL_GPIO_WritePin(GPIOA, MOTORX_Pin, GPIO_PIN_RESET);  // Desactivar sentido A (MOTORX LOW)
-	       HAL_GPIO_WritePin(GPIOA, MOTORY_Pin, GPIO_PIN_SET);  // Activar motor en sentido B (MOTORY HIGH)
-	   }  if (HAL_GetTick() - motor_start_time >= 3000 && motor_active) {
-	       HAL_GPIO_WritePin(GPIOA, MOTORX_Pin, GPIO_PIN_RESET);  // Parar motor (MOTORX LOW)
-	       HAL_GPIO_WritePin(GPIOA, MOTORY_Pin, GPIO_PIN_RESET);  // Asegurar que ambos pines estén en LOW
-	       motor_active = false;
+	   // conditional for NTC incidence
+
+	   if (raw_value_NTC <= 1250) {
+	       // Activa el LED1
+	       HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET);
+	       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET); // Asegura que el LED2 esté apagado
+	       HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Asegura que el LED3 esté apagado
+	   }
+	   else if (raw_value_NTC > 1250 && raw_value_NTC <= 2500) {
+	       // Activa el LED2
+	       HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET); // Asegura que el LED1 esté apagado
+	       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	       HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Asegura que el LED3 esté apagado
+	   }
+	   else if (raw_value_NTC > 2500) {
+	       // Activa el LED3
+	       HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET); // Asegura que el LED1 esté apagado
+	       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET); // Asegura que el LED2 esté apagado
+	       HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_SET);
 	   }
 
     /* USER CODE END WHILE */
@@ -450,7 +420,11 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LD2_Pin|LD3_Pin|LD1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LD2_Pin|LD3_Pin|LD1_Pin|LD4_Pin
+                          |LD5_Pin|FAN_Pin|MOTORX_Pin|MOTORY_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
@@ -458,12 +432,21 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LD2_Pin LD3_Pin LD1_Pin */
-  GPIO_InitStruct.Pin = LD2_Pin|LD3_Pin|LD1_Pin;
+  /*Configure GPIO pins : LD2_Pin LD3_Pin LD1_Pin LD4_Pin
+                           LD5_Pin FAN_Pin MOTORX_Pin MOTORY_Pin */
+  GPIO_InitStruct.Pin = LD2_Pin|LD3_Pin|LD1_Pin|LD4_Pin
+                          |LD5_Pin|FAN_Pin|MOTORX_Pin|MOTORY_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PB6 */
+  GPIO_InitStruct.Pin = GPIO_PIN_6;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
