@@ -1106,3 +1106,384 @@ Finished building: default.size.stdout
  
 Finished building: ProjectR.list
  
+11:09:41 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "ProjectR.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectR\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectR.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectR.elf
+ 
+arm-none-eabi-size  ProjectR.elf 
+arm-none-eabi-objdump -h -S ProjectR.elf  > "ProjectR.list"
+   text	   data	    bss	    dec	    hex	filename
+  25928	    124	   3204	  29256	   7248	ProjectR.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectR.list
+ 
+11:11:49 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "ProjectR.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectR\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectR.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectR.elf
+ 
+arm-none-eabi-size  ProjectR.elf 
+arm-none-eabi-objdump -h -S ProjectR.elf  > "ProjectR.list"
+   text	   data	    bss	    dec	    hex	filename
+  25820	    124	   3204	  29148	   71dc	ProjectR.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectR.list
+ 
+11:12:43 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "ProjectR.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectR\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectR.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectR.elf
+ 
+arm-none-eabi-size  ProjectR.elf 
+arm-none-eabi-objdump -h -S ProjectR.elf  > "ProjectR.list"
+   text	   data	    bss	    dec	    hex	filename
+  25820	    124	   3204	  29148	   71dc	ProjectR.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectR.list
+ 
+11:12:51 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-size  ProjectR.elf 
+   text	   data	    bss	    dec	    hex	filename
+  25820	    124	   3204	  29148	   71dc	ProjectR.elf
+Finished building: default.size.stdout
+ 
+11:16:23 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "ProjectR.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectR\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectR.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectR.elf
+ 
+arm-none-eabi-size  ProjectR.elf 
+arm-none-eabi-objdump -h -S ProjectR.elf  > "ProjectR.list"
+   text	   data	    bss	    dec	    hex	filename
+  25888	    124	   3204	  29216	   7220	ProjectR.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectR.list
+ 
+11:17:57 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-size  ProjectR.elf 
+   text	   data	    bss	    dec	    hex	filename
+  25888	    124	   3204	  29216	   7220	ProjectR.elf
+Finished building: default.size.stdout
+ 
+11:20:32 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:292:18: error: 'password_correct' undeclared (first use in this function); did you mean 'pasword_correct'?
+  292 |          while (!password_correct)
+      |                  ^~~~~~~~~~~~~~~~
+      |                  pasword_correct
+../Core/Src/main.c:292:18: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:40: Core/Src/main.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+11:20:47 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'HAL_GPIO_EXTI_Callback':
+../Core/Src/main.c:219:21: error: 'pasword_correct' undeclared (first use in this function); did you mean 'password_correct'?
+  219 |                     pasword_correct = 1;
+      |                     ^~~~~~~~~~~~~~~
+      |                     password_correct
+../Core/Src/main.c:219:21: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:40: Core/Src/main.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+11:20:56 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "ProjectR.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectR\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectR.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectR.elf
+ 
+arm-none-eabi-size  ProjectR.elf 
+arm-none-eabi-objdump -h -S ProjectR.elf  > "ProjectR.list"
+   text	   data	    bss	    dec	    hex	filename
+  25896	    124	   3204	  29224	   7228	ProjectR.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectR.list
+ 
+11:22:12 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "ProjectR.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectR\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectR.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectR.elf
+ 
+arm-none-eabi-size  ProjectR.elf 
+arm-none-eabi-objdump -h -S ProjectR.elf  > "ProjectR.list"
+   text	   data	    bss	    dec	    hex	filename
+  25896	    124	   3204	  29224	   7228	ProjectR.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectR.list
+ 
+11:24:00 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "ProjectR.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectR\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectR.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectR.elf
+ 
+arm-none-eabi-size  ProjectR.elf 
+arm-none-eabi-objdump -h -S ProjectR.elf  > "ProjectR.list"
+   text	   data	    bss	    dec	    hex	filename
+  25908	    124	   3204	  29236	   7234	ProjectR.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectR.list
+ 
+11:25:16 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'HAL_GPIO_EXTI_Callback':
+../Core/Src/main.c:220:21: error: break statement not within loop or switch
+  220 |                     break;
+      |                     ^~~~~
+make: *** [Core/Src/subdir.mk:40: Core/Src/main.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+11:25:27 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "ProjectR.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectR\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectR.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectR.elf
+ 
+arm-none-eabi-size  ProjectR.elf 
+arm-none-eabi-objdump -h -S ProjectR.elf  > "ProjectR.list"
+   text	   data	    bss	    dec	    hex	filename
+  25908	    124	   3204	  29236	   7234	ProjectR.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectR.list
+ 
+11:26:35 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "ProjectR.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectR\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectR.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectR.elf
+ 
+arm-none-eabi-size  ProjectR.elf 
+arm-none-eabi-objdump -h -S ProjectR.elf  > "ProjectR.list"
+   text	   data	    bss	    dec	    hex	filename
+  25908	    124	   3204	  29236	   7234	ProjectR.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectR.list
+ 
+11:28:27 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "ProjectR.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectR\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectR.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectR.elf
+ 
+arm-none-eabi-size  ProjectR.elf 
+arm-none-eabi-objdump -h -S ProjectR.elf  > "ProjectR.list"
+   text	   data	    bss	    dec	    hex	filename
+  25972	    124	   3204	  29300	   7274	ProjectR.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectR.list
+ 
+11:30:27 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:368:13: error: invalid storage class for function 'MX_I2C1_Init'
+  368 | static void MX_I2C1_Init(void)
+      |             ^~~~~~~~~~~~
+../Core/Src/main.c:416:13: error: invalid storage class for function 'MX_USART2_UART_Init'
+  416 | static void MX_USART2_UART_Init(void)
+      |             ^~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:451:13: error: invalid storage class for function 'MX_GPIO_Init'
+  451 | static void MX_GPIO_Init(void)
+      |             ^~~~~~~~~~~~
+../Core/Src/main.c:531:1: error: expected declaration or statement at end of input
+  531 | }
+      | ^
+../Core/Src/main.c: At top level:
+../Core/Src/main.c:87:13: warning: 'MX_GPIO_Init' used but never defined
+   87 | static void MX_GPIO_Init(void);
+      |             ^~~~~~~~~~~~
+../Core/Src/main.c:88:13: warning: 'MX_USART2_UART_Init' used but never defined
+   88 | static void MX_USART2_UART_Init(void);
+      |             ^~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:89:13: warning: 'MX_I2C1_Init' used but never defined
+   89 | static void MX_I2C1_Init(void);
+      |             ^~~~~~~~~~~~
+../Core/Src/main.c:522:6: warning: 'Error_Handler' defined but not used [-Wunused-function]
+  522 | void Error_Handler(void)
+      |      ^~~~~~~~~~~~~
+../Core/Src/main.c:451:13: warning: 'MX_GPIO_Init' defined but not used [-Wunused-function]
+  451 | static void MX_GPIO_Init(void)
+      |             ^~~~~~~~~~~~
+../Core/Src/main.c:416:13: warning: 'MX_USART2_UART_Init' defined but not used [-Wunused-function]
+  416 | static void MX_USART2_UART_Init(void)
+      |             ^~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:368:13: warning: 'MX_I2C1_Init' defined but not used [-Wunused-function]
+  368 | static void MX_I2C1_Init(void)
+      |             ^~~~~~~~~~~~
+../Core/Src/main.c:317:6: warning: 'SystemClock_Config' defined but not used [-Wunused-function]
+  317 | void SystemClock_Config(void)
+      |      ^~~~~~~~~~~~~~~~~~
+make: *** [Core/Src/subdir.mk:40: Core/Src/main.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+11:31:36 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "ProjectR.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectR\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectR.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectR.elf
+ 
+arm-none-eabi-size  ProjectR.elf 
+arm-none-eabi-objdump -h -S ProjectR.elf  > "ProjectR.list"
+   text	   data	    bss	    dec	    hex	filename
+  25904	    124	   3204	  29232	   7230	ProjectR.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectR.list
+ 
+11:32:53 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "ProjectR.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectR\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectR.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectR.elf
+ 
+arm-none-eabi-size  ProjectR.elf 
+arm-none-eabi-objdump -h -S ProjectR.elf  > "ProjectR.list"
+   text	   data	    bss	    dec	    hex	filename
+  25904	    124	   3204	  29232	   7230	ProjectR.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectR.list
+ 
+11:40:02 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:293:18: error: 'id_incorrect2' undeclared (first use in this function)
+  293 |          while (!id_incorrect2)
+      |                  ^~~~~~~~~~~~~
+../Core/Src/main.c:293:18: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:40: Core/Src/main.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+11:40:44 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'HAL_GPIO_EXTI_Callback':
+../Core/Src/main.c:192:25: warning: variable 'id_incorrect2' set but not used [-Wunused-but-set-variable]
+  192 |                 uint8_t id_incorrect2 = 0;
+      |                         ^~~~~~~~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:264:16: error: 'id_incorrect2' undeclared (first use in this function)
+  264 |           if (!id_incorrect2) {
+      |                ^~~~~~~~~~~~~
+../Core/Src/main.c:264:16: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:40: Core/Src/main.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+11:41:02 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'HAL_GPIO_EXTI_Callback':
+../Core/Src/main.c:197:65: warning: passing argument 2 of 'ring_buffer_read' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  197 |                     if (ring_buffer_read(&keyboard_ring_buffer, &byte2) != 0) {
+      |                                                                 ^~~~~~
+In file included from ../Core/Src/main.c:28:
+../Core/Inc/ring_buffer.h:24:54: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'volatile uint8_t *' {aka 'volatile unsigned char *'}
+   24 | uint8_t ring_buffer_read(ring_buffer_t *rb, uint8_t *byte);
+      |                                             ~~~~~~~~~^~~~
+../Core/Src/main.c:192:34: warning: variable 'id_incorrect2' set but not used [-Wunused-but-set-variable]
+  192 |                 volatile uint8_t id_incorrect2 = 0;
+      |                                  ^~~~~~~~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:264:16: error: 'id_incorrect2' undeclared (first use in this function)
+  264 |           if (!id_incorrect2) {
+      |                ^~~~~~~~~~~~~
+../Core/Src/main.c:264:16: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:40: Core/Src/main.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+11:41:40 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'HAL_GPIO_EXTI_Callback':
+../Core/Src/main.c:196:25: warning: variable 'id_incorrect2' set but not used [-Wunused-but-set-variable]
+  196 |                 uint8_t id_incorrect2 = 0;
+      |                         ^~~~~~~~~~~~~
+arm-none-eabi-gcc -o "ProjectR.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectR\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectR.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectR.elf
+ 
+arm-none-eabi-size  ProjectR.elf 
+arm-none-eabi-objdump -h -S ProjectR.elf  > "ProjectR.list"
+   text	   data	    bss	    dec	    hex	filename
+  25860	    124	   3204	  29188	   7204	ProjectR.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectR.list
+ 
+11:42:27 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'HAL_GPIO_EXTI_Callback':
+../Core/Src/main.c:196:25: warning: variable 'id_incorrect2' set but not used [-Wunused-but-set-variable]
+  196 |                 uint8_t id_incorrect2 = 0;
+      |                         ^~~~~~~~~~~~~
+arm-none-eabi-gcc -o "ProjectR.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectR\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectR.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectR.elf
+ 
+arm-none-eabi-size  ProjectR.elf 
+arm-none-eabi-objdump -h -S ProjectR.elf  > "ProjectR.list"
+   text	   data	    bss	    dec	    hex	filename
+  25860	    124	   3204	  29188	   7204	ProjectR.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectR.list
+ 
+11:44:18 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:293:18: error: 'id_correct' undeclared (first use in this function)
+  293 |          while (!id_correct)
+      |                  ^~~~~~~~~~
+../Core/Src/main.c:293:18: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:40: Core/Src/main.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+11:45:02 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:299:16: error: 'id_correct' undeclared (first use in this function)
+  299 |            if (id_correct == 1){
+      |                ^~~~~~~~~~
+../Core/Src/main.c:299:16: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:40: Core/Src/main.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+11:45:19 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:299:16: error: 'id_correct' undeclared (first use in this function)
+  299 |            if (id_correct == 1){
+      |                ^~~~~~~~~~
+../Core/Src/main.c:299:16: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:40: Core/Src/main.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+11:45:46 **** Incremental Build of configuration Debug for project ProjectR ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../External/ssd1306 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "ProjectR.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\MateoAlmeida\Desktop\7mo\CS\ProjectStuff\ProjectADV\ProjectR\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ProjectR.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ProjectR.elf
+ 
+arm-none-eabi-size  ProjectR.elf 
+arm-none-eabi-objdump -h -S ProjectR.elf  > "ProjectR.list"
+   text	   data	    bss	    dec	    hex	filename
+  25916	    124	   3204	  29244	   723c	ProjectR.elf
+Finished building: default.size.stdout
+ 
+Finished building: ProjectR.list
+ 

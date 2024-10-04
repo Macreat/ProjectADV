@@ -76,6 +76,9 @@ static uint8_t cursor_y = 30;
 #define SYSTEM_LED_GPIO_Port GPIOA
 #define SYSTEM_LED_Pin GPIO_PIN_5
 
+//adding variables for CONTROL prj
+ uint8_t password_correct = 0;
+
 
 /* USER CODE END PV */
 
@@ -213,7 +216,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	            ssd1306_WriteString("correct sequence", Font_6x8, White);
 	            ssd1306_UpdateScreen();
 	            HAL_UART_Transmit(&huart2, (uint8_t*)"correct sequence\n\r", 21, 10);
-	            HAL_UART_Transmit(&huart2, (uint8_t*)"starting...\n\r", 14, 10);
+	            password_correct  = 1 ;
 
 
 	        } else {
@@ -226,7 +229,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 	        }
 
-	        // reset buffer after validation
 	        ring_buffer_reset(&keyboard_ring_buffer);
 	        memset(display_buffer, 0, sizeof(display_buffer)); // clean buffer on screen
 	        buffer_index = 0; // reset index buffer
@@ -282,9 +284,29 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  printf("Starting...\r\n");
   while (1)
   {
+
+  // Solicitar contraseña hasta que sea correcta
+	 while (!password_correct)
+	 {
+	   printf("Please enter the password:\r\n");
+	   HAL_Delay(1000000);  // Solo para evitar una saturación de mensajes
+
+	   // Suponiendo que HAL_GPIO_EXTI_Callback se encargará de verificar la contraseña
+	   // Cuando la contraseña es correcta, cambiaremos `password_correct` a 1
+	   // Esto ocurrirá dentro de la función HAL_GPIO_EXTI_Callback que ya compara la contraseña.
+	   if (password_correct == 1){
+		   printf("Password correct, proceeding with the system...\r\n");
+		   HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, 1);
+
+	   }
+	 }
+
+	 // Aquí una vez la contraseña es correcta, ya se puede proceder a otras interacciones.
+
+
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

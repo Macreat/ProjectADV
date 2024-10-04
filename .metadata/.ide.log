@@ -1380,3 +1380,9 @@ java.lang.NullPointerException: Cannot invoke "javax.swing.JTextField.getText()"
 2024-10-04 10:49:38,375 [INFO] ProjectBuilder:5097 - Time for Generating toolchain IDE Files: 2568mS.
 2024-10-04 10:49:38,378 [INFO] ProjectBuilder:3107 - Time for Copy CMSIS : 2mS.
 2024-10-04 10:49:38,383 [INFO] ProjectBuilder:3107 - Time for Copy CMSIS : 0mS.
+2024-10-04 10:51:26,803 [INFO] MainUpdater:2873 - connection check result : 10
+2024-10-04 10:51:27,116 [INFO] McuFinderGlobals:76 - Set McuFinderConnectedMode to true
+2024-10-04 10:51:27,123 [INFO] MultiScanPanel:200 - Auto-refresh data requested => check proxy status ongoing
+2024-10-04 10:51:27,124 [INFO] FinderPluginLoader:95 - Searching for filters in installed packs
+2024-10-04 10:51:28,625 [INFO] LoadUrlFilesThread:185 - End of LoadServerUrlFiles without Thread
+2024-10-04 10:51:28,626 [INFO] DetailPanel:341 - Set advertising image to C:/Users/MateoAlmeida/STM32Cube/Repository/\en.prom-stm32c071-usb-memories-mcu-finder.png
