@@ -53,7 +53,6 @@ uint16_t lux = 0;
 char msg[20];
 
 
-char uart_buf[50];
 uint16_t raw_value;
 float temperature;
 float B = 3950;  // Constante B del material del NTC
@@ -152,7 +151,7 @@ int main(void)
 
 	   HAL_Delay(1000);  // Esperar un segundo antes de la siguiente lectura
 
-	   if ( raw_value > 2000){
+	   if ( raw_value > 2500){
 	   		   HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin , 1 );
 
 	   	   }else{
