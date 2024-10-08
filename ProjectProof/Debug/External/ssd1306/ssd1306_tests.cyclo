@@ -1,4 +1,4 @@
-../External/ssd1306/ssd1306_tests.c:113:6:ssd1306_TestBorder	9
+../External/ssd1306/ssd1306_tests.c:113:6:ssd1306_TestBorder	11
 ../External/ssd1306/ssd1306_tests.c:139:6:ssd1306_TestFonts1	1
 ../External/ssd1306/ssd1306_tests.c:172:6:ssd1306_TestFonts2	1
 ../External/ssd1306/ssd1306_tests.c:197:6:ssd1306_TestFonts3	1
@@ -11,4 +11,4 @@
 ../External/ssd1306/ssd1306_tests.c:320:6:ssd1306_TestArc	1
 ../External/ssd1306/ssd1306_tests.c:327:6:ssd1306_TestPolyline	1
 ../External/ssd1306/ssd1306_tests.c:344:6:ssd1306_TestDrawBitmap	1
-../External/ssd1306/ssd1306_tests.c:359:6:ssd1306_TestAll	1
+../External/ssd1306/ssd1306_tests.c:359:6:ssd1306_TestAll	4

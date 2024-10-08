@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;WifiModule/Core/Src/esp8266.c&apos; to &apos;esp8266hal.c&apos;" description="Rename resource &apos;esp8266.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Core/Src/esp8266.c" name="esp8266hal.c" stamp="1728400892246" updateReferences="true"/>
+</session>

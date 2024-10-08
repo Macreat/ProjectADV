@@ -1,3 +1,2 @@
-../Core/Src/keypad.c:8:16:keypad_debounce	3
-../Core/Src/keypad.c:24:9:keypad_scan_row	5
+../Core/Src/keypad.c:24:9:keypad_scan_row	4
 ../Core/Src/keypad.c:62:9:keypad_scan	8

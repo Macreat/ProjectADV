@@ -1,0 +1,93 @@
+10:39:15 **** Incremental Build of configuration Debug for project WifiModule ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/ESP8266_HAL.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/ESP8266_HAL.d" -MT"Core/Src/ESP8266_HAL.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/ESP8266_HAL.o"
+arm-none-eabi-gcc "../Core/Src/UartRingbuffer_multi.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/UartRingbuffer_multi.d" -MT"Core/Src/UartRingbuffer_multi.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/UartRingbuffer_multi.o"
+In file included from ../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h:288,
+                 from ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h:29,
+                 from ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:27,
+                 from ../Core/Inc/stm32l4xx_hal_conf.h:258,
+                 from ../Core/Inc/UartRingbuffer_multi.h:12,
+                 from ../Core/Src/UartRingbuffer_multi.c:8:
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:636:1: error: unknown type name 'HAL_StatusTypeDef'
+  636 | HAL_StatusTypeDef HAL_Init(void);
+      | ^~~~~~~~~~~~~~~~~
+In file included from ../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h:288,
+                 from ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h:29,
+                 from ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:27,
+                 from ../Core/Inc/stm32l4xx_hal_conf.h:258,
+                 from ../Core/Inc/UartRingbuffer_multi.h:12,
+                 from ../Core/Src/ESP8266_HAL.c:9:
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:636:1: error: unknown type name 'HAL_StatusTypeDef'
+  636 | HAL_StatusTypeDef HAL_Init(void);
+      | ^~~~~~~~~~~~~~~~~
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:637:1: error: unknown type name 'HAL_StatusTypeDef'
+  637 | HAL_StatusTypeDef HAL_DeInit(void);
+      | ^~~~~~~~~~~~~~~~~
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:637:1: error: unknown type name 'HAL_StatusTypeDef'
+  637 | HAL_StatusTypeDef HAL_DeInit(void);
+      | ^~~~~~~~~~~~~~~~~
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:640:1: error: unknown type name 'HAL_StatusTypeDef'
+  640 | HAL_StatusTypeDef HAL_InitTick (uint32_t TickPriority);
+      | ^~~~~~~~~~~~~~~~~
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:640:1: error: unknown type name 'HAL_StatusTypeDef'
+  640 | HAL_StatusTypeDef HAL_InitTick (uint32_t TickPriority);
+      | ^~~~~~~~~~~~~~~~~
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:655:1: error: unknown type name 'HAL_StatusTypeDef'
+  655 | HAL_StatusTypeDef  HAL_SetTickFreq(HAL_TickFreqTypeDef Freq);
+      | ^~~~~~~~~~~~~~~~~
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:655:1: error: unknown type name 'HAL_StatusTypeDef'
+  655 | HAL_StatusTypeDef  HAL_SetTickFreq(HAL_TickFreqTypeDef Freq);
+      | ^~~~~~~~~~~~~~~~~
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:699:1: error: unknown type name 'HAL_StatusTypeDef'
+  699 | HAL_StatusTypeDef HAL_SYSCFG_EnableVREFBUF(void);
+      | ^~~~~~~~~~~~~~~~~
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:699:1: error: unknown type name 'HAL_StatusTypeDef'
+  699 | HAL_StatusTypeDef HAL_SYSCFG_EnableVREFBUF(void);
+      | ^~~~~~~~~~~~~~~~~
+../Core/Src/UartRingbuffer_multi.c: In function 'Uart_isr':
+../Core/Src/UartRingbuffer_multi.c:387:59: error: 'USART_TypeDef' has no member named 'SR'; did you mean 'ISR'?
+  387 |           uint32_t isrflags   = READ_REG(huart->Instance->SR);
+      |                                                           ^~
+../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h:222:33: note: in definition of macro 'READ_REG'
+  222 | #define READ_REG(REG)         ((REG))
+      |                                 ^~~
+../Core/Src/UartRingbuffer_multi.c:391:22: error: 'USART_SR_RXNE' undeclared (first use in this function); did you mean 'USART_ISR_RXNE'?
+  391 |     if (((isrflags & USART_SR_RXNE) != RESET) && ((cr1its & USART_CR1_RXNEIE) != RESET))
+      |                      ^~~~~~~~~~~~~
+      |                      USART_ISR_RXNE
+../Core/Src/UartRingbuffer_multi.c:391:22: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/UartRingbuffer_multi.c:404:34: error: 'USART_TypeDef' has no member named 'SR'; did you mean 'ISR'?
+  404 |                 huart->Instance->SR;                       /* Read status register */
+      |                                  ^~
+      |                                  ISR
+../Core/Src/UartRingbuffer_multi.c:405:44: error: 'USART_TypeDef' has no member named 'DR'; did you mean 'RDR'?
+  405 |         unsigned char c = huart->Instance->DR;     /* Read data register */
+      |                                            ^~
+      |                                            RDR
+../Core/Src/UartRingbuffer_multi.c:420:22: error: 'USART_SR_TXE' undeclared (first use in this function); did you mean 'USART_ISR_TXE'?
+  420 |     if (((isrflags & USART_SR_TXE) != RESET) && ((cr1its & USART_CR1_TXEIE) != RESET))
+      |                      ^~~~~~~~~~~~
+      |                      USART_ISR_TXE
+../Core/Src/UartRingbuffer_multi.c:448:32: error: 'USART_TypeDef' has no member named 'SR'; did you mean 'ISR'?
+  448 |               huart->Instance->SR;
+      |                                ^~
+      |                                ISR
+../Core/Src/UartRingbuffer_multi.c:449:32: error: 'USART_TypeDef' has no member named 'DR'; did you mean 'RDR'?
+  449 |               huart->Instance->DR = c;
+      |                                ^~
+      |                                RDR
+../Core/Src/UartRingbuffer_multi.c:480:40: error: 'USART_TypeDef' has no member named 'SR'; did you mean 'ISR'?
+  480 |                       huart->Instance->SR;
+      |                                        ^~
+      |                                        ISR
+../Core/Src/UartRingbuffer_multi.c:481:40: error: 'USART_TypeDef' has no member named 'DR'; did you mean 'RDR'?
+  481 |                       huart->Instance->DR = c;
+      |                                        ^~
+      |                                        RDR
+make: *** [Core/Src/subdir.mk:40: Core/Src/ESP8266_HAL.o] Error 1
+make: *** Waiting for unfinished jobs....
+make: *** [Core/Src/subdir.mk:40: Core/Src/UartRingbuffer_multi.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+
+10:39:16 Build Failed. 22 errors, 0 warnings. (took 1s.361ms)
+
