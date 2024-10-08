@@ -154,7 +154,7 @@ int _write(int file, char *ptr, int len)
 /* UART Callback: Receives data and processes it */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-    if (huart->Instance == USART3) {
+    if (huart->Instance == USART2) {
         // Store digits received from USART2 into the ring buffer
         if (usart2_data >= '0' && usart2_data <= '9') {
             ring_buffer_write(&usart2_rb, usart2_data);

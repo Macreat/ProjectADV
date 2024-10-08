@@ -29,7 +29,7 @@ const config = {
         },
         title: {
           display: true,
-          text: 'Electrocardiogram'
+          text: 'Metereologic system'
         }
       },
       // scales: {
@@ -72,8 +72,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
   const outputDiv = document.getElementById('output');
 
-  socket = new WebSocket('ws://localhost:5000');
-
+  socket = new WebSocket('ws://172.20.10.10:5000');
   socket.onopen = function() {
     console.log("Connection established!");
     socket.send('request_data');

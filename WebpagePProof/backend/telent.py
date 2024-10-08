@@ -8,7 +8,8 @@ import websockets
 message_queue = Queue()
 
 async def telnet_task(websocket):
-    with Telnet('192.168.146.132', 23) as tn:
+    # Cambiar la IP para que coincida con la dirección IP de tu ESP8266
+    with Telnet('172.20.10.10', 23) as tn:
         while True:
             if not message_queue.empty():
                 # Hay un mensaje para enviar a Telnet

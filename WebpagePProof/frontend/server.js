@@ -5,5 +5,5 @@ const port = 4000;
 app.use(express.static('.'));
 
 app.listen(port, () => {
-  console.log(`Servidor ejecutándose en http://localhost:${port}`);
+  console.log(`Servidor ejecutándose en http://172.20.10.10:${port}`);
 });
